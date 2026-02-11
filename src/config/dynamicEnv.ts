@@ -6,7 +6,6 @@ const isStaging = process.env.NODE_ENV;
 // Define the appropriate environment prefix
 const envPrefix = isStaging == "staging" ? "STAGING_" : "PRODUCTION_";
 
-
 // Load the appropriate .env file based on NODE_ENV
 const envFile = `.env.${process.env.NODE_ENV || "development"}`;
 dotenv.config({ path: envFile });
@@ -16,10 +15,11 @@ logger(`Loaded environment: ${process.env.NODE_ENV}`);
 
 const frontendUrls = () => process.env[`${envPrefix}APP_FRONTEND_URL`]!;
 
-const backendUrls = ( urlFilter = "") => `${process.env[`${envPrefix}APP_BACKEND_URL`]}/${urlFilter}`;
+const backendUrls = (urlFilter = "") =>
+  `${process.env[`${envPrefix}APP_BACKEND_URL`]}/${urlFilter}`;
 
 const appUrls: AppUrlsType = {
-  backendPort: process.env.APP_PORT,
+  backendPort: process.env.PORT || process.env.APP_PORT,
   frontendUrl: frontendUrls(),
   backendUrl: backendUrls(),
   apiDocsUrl: process.env.API_DOC_URL!,
@@ -27,14 +27,12 @@ const appUrls: AppUrlsType = {
   WEBSOCKET_URL: process.env["SOCKET_APP_URL"]!,
 };
 
-
-
 export const env: Env & {
   appUrls: AppUrlsType;
 } = {
   NODE_ENV: process.env.NODE_ENV as Env["NODE_ENV"],
   CURRENT_LANGUAGE: process.env.CURRENT_LANGUAGE as Env["CURRENT_LANGUAGE"],
-  APP_PORT: process.env.APP_PORT!,
+  APP_PORT: (process.env.PORT || process.env.APP_PORT)!,
   DATABASE_URI: process.env.DATABASE_URI!,
   jwtSecretKey: process.env[`${envPrefix}JWT_SECRET_KEY`]!,
   jwtVerificationTokenSecret:
@@ -76,11 +74,11 @@ export const env: Env & {
   OPENAI_API_ORG: process.env["OPENAI_API_ORG"]!,
   googleClientId: process.env["GOOGLE_CLIENT_ID"]!,
   googleClientSecret: process.env["GOOGLE_CLIENT_SECRET"]!,
-  googleRedirectUrl: process.env["GOOGLE_REDIRECT_URL"]!, 
-   APP_DESCRIPTION: process.env["APP_DESCRIPTION"]!,
+  googleRedirectUrl: process.env["GOOGLE_REDIRECT_URL"]!,
+  APP_DESCRIPTION: process.env["APP_DESCRIPTION"]!,
   SHOULDENCRYPTRESPONSE: process.env["SHOULD_ENCRYPT_RESPONSE"] === "true",
   BASEPATH: process.env["BASEPATH"]!,
-  ASSETSBASEPATH: process.env["ASSETSBASEPATH"]!, 
+  ASSETSBASEPATH: process.env["ASSETSBASEPATH"]!,
   bccEmail: process.env["BCC_EMAIL"] || "",
   ccEmail: process.env["CC_EMAIL"] || "",
   operationEmail: process.env["OPERATION_EMAIL"] || "",
