@@ -26,11 +26,13 @@ import { setupAutoSwagger } from "./middlewares/setupAutoSwagger";
 
 const app = express();
 const allowedOrigins = [
-  "http://192.168.0.104:8006", 
+  "http://192.168.0.104:8006",
   "http://localhost:3000",
-  "http://localhost:3001", 
+  "http://localhost:3001",
   "http://localhost:8056",
+  "https://node-backend-starter.onrender.com",
 ];
+
 
 app.use(
   cors({
