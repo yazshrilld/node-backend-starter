@@ -23,6 +23,13 @@ export const urls = {
     login: () => routeCreator("login", "post"),
     register: () => routeCreator("register", "post"),
   },
+  onboarding: {
+    createOnboarding: () => routeCreator("create", "post"),
+    getOnboardings: () => routeCreator("all", "get"),
+    getOnboardingById: () => routeCreator(":id", "get"),
+    updateOnboarding: () => routeCreator(":id", "patch"),
+    deleteOnboarding: () => routeCreator(":id", "delete"),
+  },
   // auth: {
   //   check: () => routeCreator("check"),
   //   reInviteUser: () => routeCreator("re-invite", "post"),

@@ -72,3 +72,5 @@ const UsersSchema = new Schema(
 );
 
 export const UsersModel = model<usersSchemaType>("Users", UsersSchema);
+
+// { "emailOrUsername": "admin@example.com", "password": "StagingSeedAdmin_ChangeMe_2026!" }

@@ -442,3 +442,464 @@
  *         description: Unauthorized
  */
         
+
+/**
+ * @swagger
+ * /api/widget/onboarding/create:
+ *   post:
+ *     summary: createOnboarding
+ *     tags: [onboarding]
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "companyName": {
+ *               "type": "string",
+ *               "minLength": 2,
+ *               "maxLength": 120
+ *             },
+ *             "websiteUrl": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "industryCategory": {
+ *               "type": "string"
+ *             },
+ *             "companySizeOrRole": {
+ *               "type": "string"
+ *             },
+ *             "brandColors": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "primary": {
+ *                   "type": "string",
+ *                   "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+ *                 },
+ *                 "secondary": {
+ *                   "type": "string",
+ *                   "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+ *                   "nullable": true
+ *                 }
+ *               },
+ *               "required": [
+ *                 "primary"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "widgetPosition": {
+ *               "type": "string",
+ *               "enum": [
+ *                 "bottom-right",
+ *                 "bottom-left"
+ *               ]
+ *             },
+ *             "agentPersona": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "alias": {
+ *                   "type": "string",
+ *                   "minLength": 2,
+ *                   "maxLength": 50
+ *                 },
+ *                 "profileImageUrl": {
+ *                   "type": "string",
+ *                   "nullable": true
+ *                 }
+ *               },
+ *               "required": [
+ *                 "alias"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "hoursOfOperation": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "timezone": {
+ *                   "type": "string"
+ *                 },
+ *                 "schedule": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "object",
+ *                     "properties": {
+ *                       "day": {
+ *                         "type": "string",
+ *                         "enum": [
+ *                           "monday",
+ *                           "tuesday",
+ *                           "wednesday",
+ *                           "thursday",
+ *                           "friday",
+ *                           "saturday",
+ *                           "sunday"
+ *                         ]
+ *                       },
+ *                       "start": {
+ *                         "type": "string",
+ *                         "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$"
+ *                       },
+ *                       "end": {
+ *                         "type": "string",
+ *                         "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$"
+ *                       },
+ *                       "isOpen": {
+ *                         "type": "boolean"
+ *                       }
+ *                     },
+ *                     "required": [
+ *                       "day",
+ *                       "start",
+ *                       "end",
+ *                       "isOpen"
+ *                     ],
+ *                     "additionalProperties": false
+ *                   }
+ *                 }
+ *               },
+ *               "required": [
+ *                 "timezone",
+ *                 "schedule"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "languagePreferences": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "defaultLanguage": {
+ *                   "type": "string"
+ *                 },
+ *                 "supportedLanguages": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "string"
+ *                   },
+ *                   "minItems": 1
+ *                 }
+ *               },
+ *               "required": [
+ *                 "defaultLanguage",
+ *                 "supportedLanguages"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "preChatFormFields": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "object",
+ *                 "properties": {
+ *                   "key": {
+ *                     "type": "string"
+ *                   },
+ *                   "label": {
+ *                     "type": "string"
+ *                   },
+ *                   "type": {
+ *                     "type": "string",
+ *                     "enum": [
+ *                       "text",
+ *                       "email",
+ *                       "number",
+ *                       "tel",
+ *                       "textarea",
+ *                       "select"
+ *                     ]
+ *                   },
+ *                   "required": {
+ *                     "type": "boolean"
+ *                   },
+ *                   "options": {
+ *                     "type": "array",
+ *                     "items": {
+ *                       "type": "string"
+ *                     }
+ *                   }
+ *                 },
+ *                 "required": [
+ *                   "key",
+ *                   "label",
+ *                   "type",
+ *                   "required"
+ *                 ],
+ *                 "additionalProperties": false
+ *               }
+ *             },
+ *             "knowledgeBaseData": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "urls": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "string"
+ *                   }
+ *                 },
+ *                 "documents": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "string"
+ *                   }
+ *                 }
+ *               },
+ *               "additionalProperties": false
+ *             }
+ *           },
+ *           "required": [
+ *             "companyName",
+ *             "industryCategory",
+ *             "companySizeOrRole",
+ *             "brandColors",
+ *             "widgetPosition",
+ *             "agentPersona",
+ *             "hoursOfOperation",
+ *             "languagePreferences",
+ *             "knowledgeBaseData"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "companyName": "string",
+ *           "websiteUrl": "string",
+ *           "industryCategory": "string",
+ *           "companySizeOrRole": "string",
+ *           "brandColors": {
+ *             "primary": "string",
+ *             "secondary": "string"
+ *           },
+ *           "widgetPosition": "string",
+ *           "agentPersona": {
+ *             "alias": "string",
+ *             "profileImageUrl": "string"
+ *           },
+ *           "hoursOfOperation": {
+ *             "timezone": "string",
+ *             "schedule": [
+ *               {
+ *                 "day": "string",
+ *                 "start": "string",
+ *                 "end": "string",
+ *                 "isOpen": true
+ *               }
+ *             ]
+ *           },
+ *           "languagePreferences": {
+ *             "defaultLanguage": "string",
+ *             "supportedLanguages": [
+ *               "string"
+ *             ]
+ *           },
+ *           "preChatFormFields": [
+ *             {
+ *               "key": "string",
+ *               "label": "string",
+ *               "type": "string",
+ *               "required": true,
+ *               "options": [
+ *                 "string"
+ *               ]
+ *             }
+ *           ],
+ *           "knowledgeBaseData": {
+ *             "urls": [
+ *               "string"
+ *             ],
+ *             "documents": [
+ *               "string"
+ *             ]
+ *           }
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+        
+
+/**
+ * @swagger
+ * /api/widget/onboarding/all:
+ *   get:
+ *     summary: getOnboardings
+ *     tags: [onboarding]
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+        
+
+/**
+ * @swagger
+ * /api/widget/onboarding/{id}:
+ *   get:
+ *     summary: getOnboardingById
+ *     tags: [onboarding]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+        
+
+/**
+ * @swagger
+ * /api/widget/onboarding/{id}:
+ *   patch:
+ *     summary: updateOnboarding
+ *     tags: [onboarding]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "id": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "id"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "id": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+        
+
+/**
+ * @swagger
+ * /api/widget/onboarding/{id}:
+ *   delete:
+ *     summary: deleteOnboarding
+ *     tags: [onboarding]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "id": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "id"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "id": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+        

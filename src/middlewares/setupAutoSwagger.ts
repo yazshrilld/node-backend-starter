@@ -43,8 +43,13 @@ fs.mkdirSync(path.dirname(tempFile), { recursive: true });
 
 const normalizePath = (p: string) => p.replace(/^\/+/, "").replace(/\/+$/, "");
 
-const isEncryptedRequestRoute = (swaggerPath: string) =>
-  /\/auth\/login$|\/auth\/register$/.test(swaggerPath);
+const isEncryptedRequestRoute = (swaggerPath: string, method: string) => {
+  if (method === "get") return false;
+
+  return /\/auth\/login$|\/auth\/register$|\/onboarding\/create$|\/onboarding\/\{id\}$/.test(
+    swaggerPath,
+  );
+};
 
 const isEncryptHelperRoute = (swaggerPath: string) =>
   /\/health\/encrypt$/.test(swaggerPath);
@@ -92,25 +97,25 @@ const exampleValueForSchema = (schema: any): any => {
   if (!schema || typeof schema !== "object") return "string";
   if (schema.example !== undefined) return schema.example;
   switch (schema.type) {
-    case "string":
-      return "string";
-    case "integer":
-    case "number":
-      return 0;
-    case "boolean":
-      return true;
-    case "array":
-      return [exampleValueForSchema(schema.items || { type: "string" })];
-    case "object": {
-      const obj: Record<string, any> = {};
-      const props = schema.properties || {};
-      for (const [key, propSchema] of Object.entries(props)) {
-        obj[key] = exampleValueForSchema(propSchema);
-      }
-      return obj;
+  case "string":
+    return "string";
+  case "integer":
+  case "number":
+    return 0;
+  case "boolean":
+    return true;
+  case "array":
+    return [exampleValueForSchema(schema.items || { type: "string" })];
+  case "object": {
+    const obj: Record<string, any> = {};
+    const props = schema.properties || {};
+    for (const [key, propSchema] of Object.entries(props)) {
+      obj[key] = exampleValueForSchema(propSchema);
     }
-    default:
-      return "string";
+    return obj;
+  }
+  default:
+    return "string";
   }
 };
 
@@ -332,26 +337,26 @@ ${schemaYaml}`;
 ${schemaYaml}`;
           }
 
-          if (isEncryptedRequestRoute(swaggerPath)) {
+          if (isEncryptedRequestRoute(swaggerPath, method)) {
             const schemaYaml = toSwaggerSchemaYaml(encryptedRequestSchema);
             const exampleJson = joiSwaggerSchema
               ? buildExampleFromSwaggerSchema(joiSwaggerSchema)
               : null;
             const plainSchemaDescription = joiSwaggerSchema
               ? `\n *       description: |\n *         Plain (unencrypted) payload schema:\n${JSON.stringify(
-                  joiSwaggerSchema,
-                  null,
-                  2,
-                )
-                  .split("\n")
-                  .map((line) => ` *         ${line}`)
-                  .join("\n")}`
+                joiSwaggerSchema,
+                null,
+                2,
+              )
+                .split("\n")
+                .map((line) => ` *         ${line}`)
+                .join("\n")}`
               : "";
             const exampleDescription = exampleJson
               ? `\n *         \n *         Copy-ready example (encrypt this object):\n${exampleJson
-                  .split("\n")
-                  .map((line) => ` *         ${line}`)
-                  .join("\n")}`
+                .split("\n")
+                .map((line) => ` *         ${line}`)
+                .join("\n")}`
               : "";
             requestBodySection = `
  *     requestBody:

@@ -1,5 +1,5 @@
 import { Helpers } from "../types";
-import { Document, ObjectId } from "mongoose";
+import { Document } from "mongoose";
 
 export type FindInfoParams = {
   orderBy?: string;
@@ -50,4 +50,46 @@ export type sessionSchemaType = Document &
     uploadedBy: string;
     uploadedByType: string;
     scanStatus: string;
+  };
+
+export type onboardingSchemaType = Document &
+  Helpers.Timestamps & {
+    _id?: string;
+    companyName: string;
+    websiteUrl?: string | null;
+    industryCategory: string;
+    companySizeOrRole: string;
+    brandColors: {
+      primary: string;
+      secondary?: string | null;
+    };
+    widgetPosition: "bottom-right" | "bottom-left";
+    agentPersona: {
+      alias: string;
+      profileImageUrl?: string | null;
+    };
+    hoursOfOperation: {
+      timezone: string;
+      schedule: Array<{
+        day: string;
+        start: string;
+        end: string;
+        isOpen: boolean;
+      }>;
+    };
+    languagePreferences: {
+      defaultLanguage: string;
+      supportedLanguages: string[];
+    };
+    preChatFormFields: Array<{
+      key: string;
+      label: string;
+      type: string;
+      required: boolean;
+      options?: string[];
+    }>;
+    knowledgeBaseData: {
+      urls: string[];
+      documents: string[];
+    };
   };

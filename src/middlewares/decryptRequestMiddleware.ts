@@ -117,11 +117,12 @@ import moment from "moment";
 // };
 
 const decryptRequestMiddleware = () => {
-  let statusCode = 503;
   return async (req: Request, res: Response, next: NextFunction) => {
     const shouldDecrypt = shouldEncryptResponse(req, res); // Reuse the route filter
 
-    const requiresEncryptedBody = isEncryptedBodyRequired(req.path);
+    // const requiresEncryptedBody = isEncryptedBodyRequired(req.path);
+    const requiresEncryptedBody = isEncryptedBodyRequired(req);
+
 
     // Skip if route excluded or no encrypted data
     if (!shouldDecrypt || !req.body?.textData) {
@@ -198,10 +199,11 @@ const decryptRequestMiddleware = () => {
       next();
     } catch (error) {
       const httpError = errorHandler(error, null);
-
       const message = httpError.message || defaultErrorMessage;
 
-      // Log the error (without sensitive data)
+      const resolvedStatusCode =
+        (httpError as any)?.status || (error as any)?.status || 422;
+
       logPayload = {
         reqParams: req.params,
         reqQuery: req.query,
@@ -219,10 +221,9 @@ const decryptRequestMiddleware = () => {
 
       CustomWinstonLogger("error", logPayload, "Decryption Request Failed");
 
-      // Send error response
       return responseObject({
         res,
-        statusCode,
+        statusCode: resolvedStatusCode,
         message,
         payload: null,
       });
@@ -264,13 +265,30 @@ const shouldEncryptResponse = (req: Request, res: Response): boolean => {
   return expectsEncryption;
 };
 
-const isEncryptedBodyRequired = (path: string): boolean => {
-  const requiredPatterns = [
-    /\/auth\/login$/, // /auth/login
-    /\/auth\/register$/, // /auth/register
-  ];
+// const isEncryptedBodyRequired = (path: string): boolean => {
+//   const requiredPatterns = [
+//     /\/auth\/login$/, // /auth/login
+//     /\/auth\/register$/, // /auth/register
+//     // onboarding
+//     /\/onboarding\/create$/, // POST create
+//     /\/onboarding\/[^/]+$/, // PATCH /:id and DELETE /:id
+//   ];
 
-  return requiredPatterns.some((pattern) => pattern.test(path));
+//   return requiredPatterns.some((pattern) => pattern.test(path));
+// };
+
+const isEncryptedBodyRequired = (req: Request): boolean => {
+  const path = req.path;
+  const method = req.method.toUpperCase();
+
+  if (method === "POST" && /\/auth\/login$/.test(path)) return true;
+  if (method === "POST" && /\/auth\/register$/.test(path)) return true;
+
+  if (method === "POST" && /\/onboarding\/create$/.test(path)) return true;
+  if (method === "PATCH" && /\/onboarding\/[^/]+$/.test(path)) return true;
+  if (method === "DELETE" && /\/onboarding\/[^/]+$/.test(path)) return true;
+
+  return false;
 };
 
 // const key = CryptoJS.lib.WordArray.random(32); // 16 bytes for AES-128 or 32 bytes for AES-256

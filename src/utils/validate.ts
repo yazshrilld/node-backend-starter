@@ -1,12 +1,11 @@
-/* eslint-disable camelcase */
-// import Joi, { ObjectSchema } from "joi";
-//import { constants } from "../constants";
-
 import Joi from "joi";
 
 export const multipartRoutes: Record<string, boolean> = {
   validateDocumentUploadRequest: true, // your docUpload endpoint
 };
+
+const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
 const ValidateviewAllValidation = (data: any) => {
   const schema = Joi.object({
@@ -288,6 +287,118 @@ const sessionInputValidationSchema = (): Joi.ObjectSchema =>
       }),
   });
 
+const createOnboardingInputValidationSchema = () =>
+  Joi.object({
+    companyName: Joi.string().trim().min(2).max(120).required().messages({
+      "any.required": "companyName is required",
+      "string.empty": "companyName is required",
+    }),
+    websiteUrl: Joi.string().trim().uri().optional().allow("", null),
+    industryCategory: Joi.string().trim().required().messages({
+      "any.required": "industryCategory is required",
+      "string.empty": "industryCategory is required",
+    }),
+    companySizeOrRole: Joi.string().trim().required().messages({
+      "any.required": "companySizeOrRole is required",
+      "string.empty": "companySizeOrRole is required",
+    }),
+    brandColors: Joi.object({
+      primary: Joi.string().trim().pattern(hexColorRegex).required().messages({
+        "any.required": "brandColors.primary is required",
+      }),
+      secondary: Joi.string()
+        .trim()
+        .pattern(hexColorRegex)
+        .optional()
+        .allow("", null),
+    }).required(),
+    widgetPosition: Joi.string()
+      .valid("bottom-right", "bottom-left")
+      .required()
+      .messages({
+        "any.required": "widgetPosition is required",
+      }),
+    agentPersona: Joi.object({
+      alias: Joi.string().trim().min(2).max(50).required().messages({
+        "any.required": "agentPersona.alias is required",
+      }),
+      profileImageUrl: Joi.string().trim().uri().optional().allow("", null),
+    }).required(),
+    hoursOfOperation: Joi.object({
+      timezone: Joi.string().trim().required().messages({
+        "any.required": "hoursOfOperation.timezone is required",
+      }),
+      schedule: Joi.array()
+        .items(
+          Joi.object({
+            day: Joi.string()
+              .trim()
+              .valid(
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday",
+                "saturday",
+                "sunday",
+              )
+              .required(),
+            start: Joi.string().trim().pattern(timeRegex).required(),
+            end: Joi.string().trim().pattern(timeRegex).required(),
+            isOpen: Joi.boolean().required(),
+          }),
+        )
+        .required(),
+    }).required(),
+    languagePreferences: Joi.object({
+      defaultLanguage: Joi.string().trim().required(),
+      supportedLanguages: Joi.array()
+        .items(Joi.string().trim())
+        .min(1)
+        .required(),
+    }).required(),
+    preChatFormFields: Joi.array().items(
+      Joi.object({
+        key: Joi.string().trim().required(),
+        label: Joi.string().trim().required(),
+        type: Joi.string()
+          .trim()
+          .valid("text", "email", "number", "tel", "textarea", "select")
+          .required(),
+        required: Joi.boolean().required(),
+        options: Joi.array().items(Joi.string().trim()).optional(),
+      }),
+    ),
+    knowledgeBaseData: Joi.object({
+      urls: Joi.array().items(Joi.string().trim().uri()).optional(),
+      documents: Joi.array().items(Joi.string().trim().uri()).optional(),
+    }).required(),
+  });
+
+const updateOnboardingInputValidationSchema = () =>
+  createOnboardingInputValidationSchema().fork(
+    [
+      "companyName",
+      "industryCategory",
+      "companySizeOrRole",
+      "brandColors",
+      "widgetPosition",
+      "agentPersona",
+      "hoursOfOperation",
+      "languagePreferences",
+      "knowledgeBaseData",
+    ],
+    (schema) => schema.optional(),
+  );
+
+const onboardingIdParamValidationSchema = () =>
+  Joi.object({
+    id: Joi.string().trim().required().messages({
+      "any.required": "id param is required",
+      "string.empty": "id param is required",
+    }),
+  });
+
 export {
   ValidateviewAllValidation,
   ValidateEncrtptedValidation,
@@ -300,4 +411,7 @@ export {
   inputRequestShouldBeEncrypted,
   sessionInputValidation,
   sessionInputValidationSchema,
+  createOnboardingInputValidationSchema,
+  updateOnboardingInputValidationSchema,
+  onboardingIdParamValidationSchema,
 };
