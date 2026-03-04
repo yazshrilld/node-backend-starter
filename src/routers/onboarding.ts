@@ -5,7 +5,7 @@ import controllers from "../controllers";
 import {
   general,
   hasPermission,
-  // signatureProtected,
+  signatureProtected,
   verifyMiddleware,
 } from "../middlewares";
 import { rolePermissions } from "../types/functions";
@@ -60,7 +60,7 @@ const serviceLoader: RouteHandler[] = [
     path: joinUrls([constants.urls.onboarding.deleteOnboarding().path]),
     method: constants.urls.onboarding.deleteOnboarding().method,
     handlers: [
-      // signatureProtected,
+      signatureProtected,
       general,
       hasPermission(["admin", "super_admin"], rolePermissions.DELETE),
       verifyMiddleware.onboardingIdParamInput,
