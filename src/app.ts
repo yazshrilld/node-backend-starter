@@ -31,6 +31,7 @@ const allowedOrigins = [
   "http://localhost:3001",
   "http://localhost:8056",
   "https://node-backend-starter.onrender.com",
+  "https://customer-service-super-admin-ai.vercel.app",
 ];
 
 
