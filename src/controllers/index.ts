@@ -3,6 +3,7 @@ import sessions from "./sessions";
 import messages from "./messages";
 import auth from "./auth";
 import onboarding from "./onboarding";
+import faqs from "./faqs";
 
 export default {
   health,
@@ -10,4 +11,5 @@ export default {
   messages,
   auth,
   onboarding,
+  faqs,
 };

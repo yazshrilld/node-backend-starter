@@ -93,3 +93,17 @@ export type onboardingSchemaType = Document &
       documents: string[];
     };
   };
+
+export type faqSchemaType = Document &
+  Helpers.Timestamps & {
+    _id?: string;
+    companyId?: string | null;
+    question: string;
+    answer: string;
+    category?: string | null;
+    tags: string[];
+    sortOrder: number;
+    isPublished: boolean;
+    isActive: boolean;
+  };
+

@@ -11,6 +11,12 @@ import {
   createOnboardingInputValidationSchema,
   updateOnboardingInputValidationSchema,
   onboardingIdParamValidationSchema,
+  createFaqInputValidationSchema,
+  updateFaqInputValidationSchema,
+  faqIdParamValidationSchema,
+  publishFaqInputValidationSchema,
+  reorderFaqsInputValidationSchema,
+  getPublicFaqsInputValidationSchema,
 } from "../utils/validate";
 
 const createValidationMiddleware = (
@@ -95,6 +101,41 @@ const updateOnboardingInput = createValidationMiddleware(
   ["body"],
 );
 
+const createFaqInput = createValidationMiddleware(
+  (data: any) => createFaqInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const getFaqsInput = createValidationMiddleware(ValidateviewAllValidation, [
+  "query",
+]);
+
+const faqIdParamInput = createValidationMiddleware(
+  (data: any) => faqIdParamValidationSchema().validate(data.params),
+  ["params"],
+);
+
+const updateFaqInput = createValidationMiddleware(
+  (data: any) => updateFaqInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const publishFaqInput = createValidationMiddleware(
+  (data: any) => publishFaqInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const reorderFaqsInput = createValidationMiddleware(
+  (data: any) => reorderFaqsInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const getPublicFaqsInput = createValidationMiddleware(
+  (data: any) => getPublicFaqsInputValidationSchema().validate(data.query),
+  ["query"],
+);
+
+
 const verifyMiddleware = {
   validateEncrtptedInput,
   validateVeiwAllInput,
@@ -105,6 +146,13 @@ const verifyMiddleware = {
   getOnboardingsInput,
   onboardingIdParamInput,
   updateOnboardingInput,
+  createFaqInput,
+  getFaqsInput,
+  faqIdParamInput,
+  updateFaqInput,
+  publishFaqInput,
+  reorderFaqsInput,
+  getPublicFaqsInput,
 };
 
 export { verifyMiddleware };

@@ -399,6 +399,64 @@ const onboardingIdParamValidationSchema = () =>
     }),
   });
 
+const createFaqInputValidationSchema = () =>
+  Joi.object({
+    companyId: Joi.string().trim().optional().allow("", null),
+    question: Joi.string().trim().min(3).max(500).required().messages({
+      "any.required": "question is required",
+      "string.empty": "question is required",
+    }),
+    answer: Joi.string().trim().min(3).required().messages({
+      "any.required": "answer is required",
+      "string.empty": "answer is required",
+    }),
+    category: Joi.string().trim().max(120).optional().allow("", null),
+    tags: Joi.array().items(Joi.string().trim()).optional(),
+    sortOrder: Joi.number().integer().min(0).optional(),
+    isPublished: Joi.boolean().optional(),
+    isActive: Joi.boolean().optional(),
+  });
+
+const updateFaqInputValidationSchema = () =>
+  createFaqInputValidationSchema().fork(["question", "answer"], (schema) =>
+    schema.optional(),
+  );
+
+const faqIdParamValidationSchema = () =>
+  Joi.object({
+    id: Joi.string().trim().required().messages({
+      "any.required": "id param is required",
+      "string.empty": "id param is required",
+    }),
+  });
+
+const publishFaqInputValidationSchema = () =>
+  Joi.object({
+    isPublished: Joi.boolean().required().messages({
+      "any.required": "isPublished is required",
+    }),
+  });
+
+const reorderFaqsInputValidationSchema = () =>
+  Joi.object({
+    items: Joi.array()
+      .items(
+        Joi.object({
+          id: Joi.string().trim().required(),
+          sortOrder: Joi.number().integer().min(0).required(),
+        }),
+      )
+      .min(1)
+      .required(),
+  });
+
+const getPublicFaqsInputValidationSchema = () =>
+  Joi.object({
+    companyId: Joi.string().trim().optional(),
+    category: Joi.string().trim().optional(),
+  });
+
+
 export {
   ValidateviewAllValidation,
   ValidateEncrtptedValidation,
@@ -414,4 +472,10 @@ export {
   createOnboardingInputValidationSchema,
   updateOnboardingInputValidationSchema,
   onboardingIdParamValidationSchema,
+  createFaqInputValidationSchema,
+  updateFaqInputValidationSchema,
+  faqIdParamValidationSchema,
+  publishFaqInputValidationSchema,
+  reorderFaqsInputValidationSchema,
+  getPublicFaqsInputValidationSchema,
 };

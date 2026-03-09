@@ -7,6 +7,12 @@ import {
   createOnboardingInputValidationSchema,
   updateOnboardingInputValidationSchema,
   onboardingIdParamValidationSchema,
+  createFaqInputValidationSchema,
+  updateFaqInputValidationSchema,
+  faqIdParamValidationSchema,
+  publishFaqInputValidationSchema,
+  reorderFaqsInputValidationSchema,
+  getPublicFaqsInputValidationSchema,
 } from "./validate";
 
 /**
@@ -23,4 +29,12 @@ export const joiSchemasMap: Record<string, Function> = {
   getOnboardingsInput: ValidateviewAllValidation,
   onboardingIdParamInput: onboardingIdParamValidationSchema,
   updateOnboardingInput: updateOnboardingInputValidationSchema,
+
+  createFaqInput: createFaqInputValidationSchema,
+  getFaqsInput: ValidateviewAllValidation,
+  faqIdParamInput: faqIdParamValidationSchema,
+  updateFaqInput: updateFaqInputValidationSchema,
+  publishFaqInput: publishFaqInputValidationSchema,
+  reorderFaqsInput: reorderFaqsInputValidationSchema,
+  getPublicFaqsInput: getPublicFaqsInputValidationSchema,
 };
