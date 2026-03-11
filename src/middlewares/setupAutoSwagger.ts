@@ -1,8 +1,4 @@
 import { Express } from "express";
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
-import path from "path";
-import fs from "fs";
 import { urls } from "../constants/urls";
 import { getters } from "../config";
 import { getSwaggerSchemaFromJoi } from "../utils";
@@ -10,6 +6,10 @@ import { verifyMiddleware } from "../middlewares";
 import { logger } from "netwrap";
 import { multipartRoutes } from "../utils/validate";
 import { joiSchemasMap } from "../utils/joiSchemasMap";
+import swaggerUi from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
+import path from "path";
+import fs from "fs";
 
 const basePath = `/${getters.getAppSecrets().BASEPATH}`;
 const routersDir = path.resolve(__dirname, "../routers");
@@ -383,7 +383,11 @@ const generateSwaggerComments = (): string => {
 
         if (isEncryptedRequestRoute(swaggerPath, method)) {
 
-          if (!joiSwaggerSchema) {joiSwaggerSchema = getFallbackEncryptedPlainSchema(swaggerPath, method);}
+          // if (!joiSwaggerSchema) {joiSwaggerSchema = getFallbackEncryptedPlainSchema(swaggerPath, method);}
+          const forcedRouteSchema = getFallbackEncryptedPlainSchema(swaggerPath, method);
+          if (forcedRouteSchema) {
+            joiSwaggerSchema = forcedRouteSchema; // force correct schema per route
+          }
           const schemaYaml = toSwaggerSchemaYaml(encryptedRequestSchema);
           const exampleJson = joiSwaggerSchema
             ? buildExampleFromSwaggerSchema(joiSwaggerSchema)
