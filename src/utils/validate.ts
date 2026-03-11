@@ -520,33 +520,101 @@ const getPublicServicesInputValidationSchema = () =>
     category: Joi.string().trim().optional(),
   });
 
+const createStaffInputValidationSchema = () =>
+  Joi.object({
+    companyId: Joi.string().trim().optional().allow("", null),
+    firstName: Joi.string().trim().min(2).max(100).required().messages({
+      "any.required": "firstName is required",
+      "string.empty": "firstName is required",
+    }),
+    lastName: Joi.string().trim().min(2).max(100).required().messages({
+      "any.required": "lastName is required",
+      "string.empty": "lastName is required",
+    }),
+    email: Joi.string().trim().email().required().messages({
+      "any.required": "email is required",
+      "string.email": "email must be valid",
+    }),
+    phone: Joi.string().trim().optional().allow("", null),
+    roles: Joi.array().items(Joi.string().trim()).optional(),
+    status: Joi.string().valid("invited", "active", "suspended").optional(),
+    isActive: Joi.boolean().optional(),
+    invitedBy: Joi.string().trim().optional().allow("", null),
+    invitedAt: Joi.date().optional().allow(null),
+  });
+
+const updateStaffInputValidationSchema = () =>
+  createStaffInputValidationSchema().fork(
+    ["firstName", "lastName", "email"],
+    (schema) => schema.optional(),
+  );
+
+const staffIdParamValidationSchema = () =>
+  Joi.object({
+    id: Joi.string().trim().required().messages({
+      "any.required": "id param is required",
+      "string.empty": "id param is required",
+    }),
+  });
+
+const updateStaffStatusInputValidationSchema = () =>
+  Joi.object({
+    status: Joi.string().valid("invited", "active", "suspended").required(),
+  });
+
+const updateStaffRolesInputValidationSchema = () =>
+  Joi.object({
+    roles: Joi.array().items(Joi.string().trim()).min(1).required(),
+  });
+
 
 
 export {
+  // validations
   ValidateviewAllValidation,
   ValidateEncrtptedValidation,
+
+  // login
   loginAuthInputValidation,
   loginInputValidationSchema,
+
+  // register
+
   registerInputValidationSchema,
   signupAuthInputValidation,
   addusersInputValidation,
   updateusersInputValidation,
   inputRequestShouldBeEncrypted,
+
+  // sessions
   sessionInputValidation,
   sessionInputValidationSchema,
+
+  // onboarding
   createOnboardingInputValidationSchema,
   updateOnboardingInputValidationSchema,
   onboardingIdParamValidationSchema,
+
+  // faq
   createFaqInputValidationSchema,
   updateFaqInputValidationSchema,
   faqIdParamValidationSchema,
   publishFaqInputValidationSchema,
   reorderFaqsInputValidationSchema,
   getPublicFaqsInputValidationSchema,
+
+  // services
   createServiceInputValidationSchema,
   updateServiceInputValidationSchema,
   serviceIdParamValidationSchema,
   publishServiceInputValidationSchema,
   reorderServicesInputValidationSchema,
   getPublicServicesInputValidationSchema,
+
+  // staff
+  createStaffInputValidationSchema,
+  updateStaffInputValidationSchema,
+  staffIdParamValidationSchema,
+  updateStaffStatusInputValidationSchema,
+  updateStaffRolesInputValidationSchema,
 };

@@ -52,5 +52,17 @@ export const urls = {
     getPublicServices: () => routeCreator("public", "get"),
   },
 
+  staff: {
+    createStaff: () => routeCreator("create", "post"),
+    getStaffs: () => routeCreator("all", "get"),
+    getStaffById: () => routeCreator(":id", "get"),
+    updateStaff: () => routeCreator(":id", "patch"),
+    deleteStaff: () => routeCreator(":id", "delete"),
+    updateStaffStatus: () => routeCreator(":id/status", "patch"),
+    updateStaffRoles: () => routeCreator(":id/roles", "patch"),
+    resendInvite: () => routeCreator(":id/resend-invite", "post"),
+    getRoles: () => routeCreator("roles/all", "get"),
+    getPermissions: () => routeCreator("permissions/all", "get"),
+  },
 
 };

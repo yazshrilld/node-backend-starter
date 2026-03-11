@@ -58,6 +58,12 @@ const isEncryptedRequestRoute = (swaggerPath: string, method: string) => {
     /\/services\/\{id\}$/,
     /\/services\/\{id\}\/publish$/,
     /\/services\/reorder$/,
+    /\/staff\/create$/,
+    /\/staff\/\{id\}$/,
+    /\/staff\/\{id\}\/status$/,
+    /\/staff\/\{id\}\/roles$/,
+    /\/staff\/\{id\}\/resend-invite$/,
+
   ].some((rx) => rx.test(p));
 };
 
@@ -282,7 +288,19 @@ const getFallbackEncryptedPlainSchema = (
   if (m === "patch" && p.endsWith("/services/reorder"))
     return pick("reorderServicesInput");
 
+  // Staff
+  if (m === "post" && p.endsWith("/staff/create"))
+    return pick("createStaffInput");
+  if (m === "patch" && /\/staff\/\{id\}$/.test(p))
+    return pick("updateStaffInput");
+  if (m === "patch" && /\/staff\/\{id\}\/status$/.test(p))
+    return pick("updateStaffStatusInput");
+  if (m === "patch" && /\/staff\/\{id\}\/roles$/.test(p))
+    return pick("updateStaffRolesInput");
+  if (m === "post" && /\/staff\/\{id\}\/resend-invite$/.test(p))
+    return pick("staffIdParamInput");
 
+  
   return null;
 };
 

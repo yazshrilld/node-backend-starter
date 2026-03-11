@@ -1554,3 +1554,479 @@
  *       401:
  *         description: Unauthorized
  */
+
+
+/**
+ * @swagger
+ * /api/widget/staff/create:
+ *   post:
+ *     summary: createStaff
+ *     tags: [staff]
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "companyId": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "question": {
+ *               "type": "string",
+ *               "minLength": 3,
+ *               "maxLength": 500
+ *             },
+ *             "answer": {
+ *               "type": "string",
+ *               "minLength": 3
+ *             },
+ *             "category": {
+ *               "type": "string",
+ *               "maxLength": 120,
+ *               "nullable": true
+ *             },
+ *             "tags": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "string"
+ *               }
+ *             },
+ *             "sortOrder": {
+ *               "type": "integer",
+ *               "minimum": 0
+ *             },
+ *             "isPublished": {
+ *               "type": "boolean"
+ *             },
+ *             "isActive": {
+ *               "type": "boolean"
+ *             }
+ *           },
+ *           "required": [
+ *             "question",
+ *             "answer"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "companyId": "string",
+ *           "question": "string",
+ *           "answer": "string",
+ *           "category": "string",
+ *           "tags": [
+ *             "string"
+ *           ],
+ *           "sortOrder": 0,
+ *           "isPublished": true,
+ *           "isActive": true
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/staff/all:
+ *   get:
+ *     summary: getStaffs
+ *     tags: [staff]
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/staff/{id}:
+ *   get:
+ *     summary: getStaffById
+ *     tags: [staff]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/staff/{id}:
+ *   patch:
+ *     summary: updateStaff
+ *     tags: [staff]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "id": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "id"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "id": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/staff/{id}:
+ *   delete:
+ *     summary: deleteStaff
+ *     tags: [staff]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "id": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "id"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "id": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/staff/{id}/status:
+ *   patch:
+ *     summary: updateStaffStatus
+ *     tags: [staff]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "id": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "id"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "id": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/staff/{id}/roles:
+ *   patch:
+ *     summary: updateStaffRoles
+ *     tags: [staff]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "id": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "id"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "id": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/staff/{id}/resend-invite:
+ *   post:
+ *     summary: resendInvite
+ *     tags: [staff]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "id": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "id"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "id": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/staff/roles/all:
+ *   get:
+ *     summary: getRoles
+ *     tags: [staff]
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/staff/permissions/all:
+ *   get:
+ *     summary: getPermissions
+ *     tags: [staff]
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */

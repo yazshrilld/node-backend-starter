@@ -126,4 +126,21 @@ export type serviceSchemaType = Document &
     metadata?: Record<string, any> | null;
   };
 
+export type staffSchemaType = Document &
+  Helpers.Timestamps & {
+    _id?: string;
+    companyId?: string | null;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone?: string | null;
+    roles: string[];
+    status: "invited" | "active" | "suspended";
+    isActive: boolean;
+    lastLogin?: Date | null;
+    invitedBy?: string | null;
+    invitedAt?: Date | null;
+  };
+
+
 

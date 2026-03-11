@@ -23,7 +23,11 @@ import {
   publishServiceInputValidationSchema,
   reorderServicesInputValidationSchema,
   getPublicServicesInputValidationSchema,
-
+  createStaffInputValidationSchema,
+  updateStaffInputValidationSchema,
+  staffIdParamValidationSchema,
+  updateStaffStatusInputValidationSchema,
+  updateStaffRolesInputValidationSchema,
 } from "../utils/validate";
 
 const createValidationMiddleware = (
@@ -176,6 +180,34 @@ const getPublicServicesInput = createValidationMiddleware(
   ["query"],
 );
 
+const createStaffInput = createValidationMiddleware(
+  (data: any) => createStaffInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const getStaffsInput = createValidationMiddleware(ValidateviewAllValidation, [
+  "query",
+]);
+
+const staffIdParamInput = createValidationMiddleware(
+  (data: any) => staffIdParamValidationSchema().validate(data.params),
+  ["params"],
+);
+
+const updateStaffInput = createValidationMiddleware(
+  (data: any) => updateStaffInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const updateStaffStatusInput = createValidationMiddleware(
+  (data: any) => updateStaffStatusInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const updateStaffRolesInput = createValidationMiddleware(
+  (data: any) => updateStaffRolesInputValidationSchema().validate(data.body),
+  ["body"],
+);
 
 
 const verifyMiddleware = {
@@ -202,6 +234,12 @@ const verifyMiddleware = {
   publishServiceInput,
   reorderServicesInput,
   getPublicServicesInput,
+  createStaffInput,
+  getStaffsInput,
+  staffIdParamInput,
+  updateStaffInput,
+  updateStaffStatusInput,
+  updateStaffRolesInput,
 };
 
 export { verifyMiddleware };

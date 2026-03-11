@@ -179,6 +179,13 @@ const isEncryptedBodyRequired = (req: Request): boolean => {
   if (method === "PATCH" && /\/services\/[^/]+\/publish$/.test(path)) return true;
   if (method === "PATCH" && /\/services\/reorder$/.test(path)) return true;
 
+  // Staff (write endpoints)
+  if (method === "POST" && /\/staff\/create$/.test(path)) return true;
+  if (method === "PATCH" && /\/staff\/[^/]+$/.test(path)) return true;
+  if (method === "DELETE" && /\/staff\/[^/]+$/.test(path)) return true;
+  if (method === "PATCH" && /\/staff\/[^/]+\/status$/.test(path)) return true;
+  if (method === "PATCH" && /\/staff\/[^/]+\/roles$/.test(path)) return true;
+  if (method === "POST" && /\/staff\/[^/]+\/resend-invite$/.test(path)) return true;
 
   return false;
 };
