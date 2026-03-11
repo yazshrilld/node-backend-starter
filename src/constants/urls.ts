@@ -41,4 +41,16 @@ export const urls = {
     getPublicFaqs: () => routeCreator("public", "get"),
   },
 
+  services: {
+    createService: () => routeCreator("create", "post"),
+    getServices: () => routeCreator("all", "get"),
+    getServiceById: () => routeCreator(":id", "get"),
+    updateService: () => routeCreator(":id", "patch"),
+    deleteService: () => routeCreator(":id", "delete"),
+    publishService: () => routeCreator(":id/publish", "patch"),
+    reorderServices: () => routeCreator("reorder", "patch"),
+    getPublicServices: () => routeCreator("public", "get"),
+  },
+
+
 };

@@ -4,6 +4,7 @@ import messages from "./messages";
 import auth from "./auth";
 import onboarding from "./onboarding";
 import faqs from "./faqs";
+import services from "./services";
 
 export default {
   health,
@@ -12,4 +13,5 @@ export default {
   auth,
   onboarding,
   faqs,
+  services,
 };

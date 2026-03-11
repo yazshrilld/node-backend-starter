@@ -456,6 +456,71 @@ const getPublicFaqsInputValidationSchema = () =>
     category: Joi.string().trim().optional(),
   });
 
+const createServiceInputValidationSchema = () =>
+  Joi.object({
+    companyId: Joi.string().trim().optional().allow("", null),
+    name: Joi.string().trim().min(2).max(200).required().messages({
+      "any.required": "name is required",
+      "string.empty": "name is required",
+    }),
+    description: Joi.string().trim().optional().allow("", null),
+    category: Joi.string().trim().max(120).optional().allow("", null),
+    tags: Joi.array().items(Joi.string().trim()).optional(),
+    isPublished: Joi.boolean().optional(),
+    isActive: Joi.boolean().optional(),
+    sortOrder: Joi.number().integer().min(0).optional(),
+    sla: Joi.object({
+      firstResponseMins: Joi.number().integer().min(0).optional().allow(null),
+      resolutionMins: Joi.number().integer().min(0).optional().allow(null),
+    }).optional(),
+    channels: Joi.array()
+      .items(Joi.string().valid("chat", "email", "voice"))
+      .min(1)
+      .optional(),
+    metadata: Joi.object().optional().allow(null),
+  });
+
+
+const updateServiceInputValidationSchema = () =>
+  createServiceInputValidationSchema().fork(["name"], (schema) =>
+    schema.optional(),
+  );
+
+const serviceIdParamValidationSchema = () =>
+  Joi.object({
+    id: Joi.string().trim().required().messages({
+      "any.required": "id param is required",
+      "string.empty": "id param is required",
+    }),
+  });
+
+const publishServiceInputValidationSchema = () =>
+  Joi.object({
+    isPublished: Joi.boolean().required().messages({
+      "any.required": "isPublished is required",
+    }),
+  });
+
+const reorderServicesInputValidationSchema = () =>
+  Joi.object({
+    items: Joi.array()
+      .items(
+        Joi.object({
+          id: Joi.string().trim().required(),
+          sortOrder: Joi.number().integer().min(0).required(),
+        }),
+      )
+      .min(1)
+      .required(),
+  });
+
+const getPublicServicesInputValidationSchema = () =>
+  Joi.object({
+    companyId: Joi.string().trim().optional(),
+    category: Joi.string().trim().optional(),
+  });
+
+
 
 export {
   ValidateviewAllValidation,
@@ -478,4 +543,10 @@ export {
   publishFaqInputValidationSchema,
   reorderFaqsInputValidationSchema,
   getPublicFaqsInputValidationSchema,
+  createServiceInputValidationSchema,
+  updateServiceInputValidationSchema,
+  serviceIdParamValidationSchema,
+  publishServiceInputValidationSchema,
+  reorderServicesInputValidationSchema,
+  getPublicServicesInputValidationSchema,
 };

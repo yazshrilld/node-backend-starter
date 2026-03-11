@@ -1128,3 +1128,429 @@
  *       401:
  *         description: Unauthorized
  */
+
+
+/**
+ * @swagger
+ * /api/widget/services/create:
+ *   post:
+ *     summary: createService
+ *     tags: [services]
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "companyId": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "question": {
+ *               "type": "string",
+ *               "minLength": 3,
+ *               "maxLength": 500
+ *             },
+ *             "answer": {
+ *               "type": "string",
+ *               "minLength": 3
+ *             },
+ *             "category": {
+ *               "type": "string",
+ *               "maxLength": 120,
+ *               "nullable": true
+ *             },
+ *             "tags": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "string"
+ *               }
+ *             },
+ *             "sortOrder": {
+ *               "type": "integer",
+ *               "minimum": 0
+ *             },
+ *             "isPublished": {
+ *               "type": "boolean"
+ *             },
+ *             "isActive": {
+ *               "type": "boolean"
+ *             }
+ *           },
+ *           "required": [
+ *             "question",
+ *             "answer"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "companyId": "string",
+ *           "question": "string",
+ *           "answer": "string",
+ *           "category": "string",
+ *           "tags": [
+ *             "string"
+ *           ],
+ *           "sortOrder": 0,
+ *           "isPublished": true,
+ *           "isActive": true
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/services/all:
+ *   get:
+ *     summary: getServices
+ *     tags: [services]
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/services/{id}:
+ *   get:
+ *     summary: getServiceById
+ *     tags: [services]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *       - in: query
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/services/{id}:
+ *   patch:
+ *     summary: updateService
+ *     tags: [services]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "id": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "id"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "id": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/services/{id}:
+ *   delete:
+ *     summary: deleteService
+ *     tags: [services]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "id": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "id"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "id": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/services/{id}/publish:
+ *   patch:
+ *     summary: publishService
+ *     tags: [services]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "id": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "id"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "id": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/services/reorder:
+ *   patch:
+ *     summary: reorderServices
+ *     tags: [services]
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "items": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "object",
+ *                 "properties": {
+ *                   "id": {
+ *                     "type": "string"
+ *                   },
+ *                   "sortOrder": {
+ *                     "type": "integer",
+ *                     "minimum": 0
+ *                   }
+ *                 },
+ *                 "required": [
+ *                   "id",
+ *                   "sortOrder"
+ *                 ],
+ *                 "additionalProperties": false
+ *               },
+ *               "minItems": 1
+ *             }
+ *           },
+ *           "required": [
+ *             "items"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "items": [
+ *             {
+ *               "id": "string",
+ *               "sortOrder": 0
+ *             }
+ *           ]
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/services/public:
+ *   get:
+ *     summary: getPublicServices
+ *     tags: [services]
+ *     parameters:
+ *       - in: query
+ *         name: companyId
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: category
+ *         required: false
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */

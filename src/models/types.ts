@@ -107,3 +107,23 @@ export type faqSchemaType = Document &
     isActive: boolean;
   };
 
+export type serviceSchemaType = Document &
+  Helpers.Timestamps & {
+    _id?: string;
+    companyId?: string | null;
+    name: string;
+    description?: string | null;
+    category?: string | null;
+    tags: string[];
+    isPublished: boolean;
+    isActive: boolean;
+    sortOrder: number;
+    sla?: {
+      firstResponseMins?: number | null;
+      resolutionMins?: number | null;
+    };
+    channels: ("chat" | "email" | "voice")[];
+    metadata?: Record<string, any> | null;
+  };
+
+

@@ -17,6 +17,13 @@ import {
   publishFaqInputValidationSchema,
   reorderFaqsInputValidationSchema,
   getPublicFaqsInputValidationSchema,
+  createServiceInputValidationSchema,
+  serviceIdParamValidationSchema,
+  updateServiceInputValidationSchema,
+  publishServiceInputValidationSchema,
+  reorderServicesInputValidationSchema,
+  getPublicServicesInputValidationSchema,
+
 } from "../utils/validate";
 
 const createValidationMiddleware = (
@@ -135,6 +142,41 @@ const getPublicFaqsInput = createValidationMiddleware(
   ["query"],
 );
 
+const createServiceInput = createValidationMiddleware(
+  (data: any) => createServiceInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const getServicesInput = createValidationMiddleware(ValidateviewAllValidation, [
+  "query",
+]);
+
+const serviceIdParamInput = createValidationMiddleware(
+  (data: any) => serviceIdParamValidationSchema().validate(data.params),
+  ["params"],
+);
+
+const updateServiceInput = createValidationMiddleware(
+  (data: any) => updateServiceInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const publishServiceInput = createValidationMiddleware(
+  (data: any) => publishServiceInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const reorderServicesInput = createValidationMiddleware(
+  (data: any) => reorderServicesInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const getPublicServicesInput = createValidationMiddleware(
+  (data: any) => getPublicServicesInputValidationSchema().validate(data.query),
+  ["query"],
+);
+
+
 
 const verifyMiddleware = {
   validateEncrtptedInput,
@@ -153,6 +195,13 @@ const verifyMiddleware = {
   publishFaqInput,
   reorderFaqsInput,
   getPublicFaqsInput,
+  createServiceInput,
+  getServicesInput,
+  serviceIdParamInput,
+  updateServiceInput,
+  publishServiceInput,
+  reorderServicesInput,
+  getPublicServicesInput,
 };
 
 export { verifyMiddleware };

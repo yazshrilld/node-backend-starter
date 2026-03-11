@@ -13,6 +13,12 @@ import {
   publishFaqInputValidationSchema,
   reorderFaqsInputValidationSchema,
   getPublicFaqsInputValidationSchema,
+  createServiceInputValidationSchema,
+  updateServiceInputValidationSchema,
+  serviceIdParamValidationSchema,
+  publishServiceInputValidationSchema,
+  reorderServicesInputValidationSchema,
+  getPublicServicesInputValidationSchema,
 } from "./validate";
 
 /**
@@ -37,4 +43,12 @@ export const joiSchemasMap: Record<string, Function> = {
   publishFaqInput: publishFaqInputValidationSchema,
   reorderFaqsInput: reorderFaqsInputValidationSchema,
   getPublicFaqsInput: getPublicFaqsInputValidationSchema,
+
+  createServiceInput: createServiceInputValidationSchema,
+  getServicesInput: ValidateviewAllValidation,
+  serviceIdParamInput: serviceIdParamValidationSchema,
+  updateServiceInput: updateServiceInputValidationSchema,
+  publishServiceInput: publishServiceInputValidationSchema,
+  reorderServicesInput: reorderServicesInputValidationSchema,
+  getPublicServicesInput: getPublicServicesInputValidationSchema,
 };
