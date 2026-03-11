@@ -10,6 +10,7 @@ build/
 package-lock.json
 # Compiled Java class files
 *.class
+/YDEV-AGENTS
 
 # Enviromental variables
 .env*
