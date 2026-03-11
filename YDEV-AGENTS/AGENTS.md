@@ -241,3 +241,20 @@ backend, and how it fits into the middleware flow.
 - `PATCH /tenants/:tenantId/widget/config`
 - `POST /webhooks/incoming/:tenantKey`
 
+## Updated Structure
+- Absolutely. Updated flow with your required decryption step:
+
+- model
+- model types
+- models index export
+- service
+- services index export
+- controller + controllers index export
+- router
+- verifyMiddleware
+- validate
+- joiSchemasMap
+- urls
+- decryptRequestMiddleware.ts (encryption-required route mapping)
+- setupAutoSwagger
+

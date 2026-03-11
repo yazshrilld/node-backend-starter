@@ -457,60 +457,260 @@
  *         {
  *           "type": "object",
  *           "properties": {
- *             "companyId": {
+ *             "companyName": {
+ *               "type": "string",
+ *               "minLength": 2,
+ *               "maxLength": 120
+ *             },
+ *             "websiteUrl": {
  *               "type": "string",
  *               "nullable": true
  *             },
- *             "question": {
- *               "type": "string",
- *               "minLength": 3,
- *               "maxLength": 500
+ *             "industryCategory": {
+ *               "type": "string"
  *             },
- *             "answer": {
- *               "type": "string",
- *               "minLength": 3
+ *             "companySizeOrRole": {
+ *               "type": "string"
  *             },
- *             "category": {
- *               "type": "string",
- *               "maxLength": 120,
- *               "nullable": true
+ *             "brandColors": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "primary": {
+ *                   "type": "string",
+ *                   "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+ *                 },
+ *                 "secondary": {
+ *                   "type": "string",
+ *                   "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+ *                   "nullable": true
+ *                 }
+ *               },
+ *               "required": [
+ *                 "primary"
+ *               ],
+ *               "additionalProperties": false
  *             },
- *             "tags": {
+ *             "widgetPosition": {
+ *               "type": "string",
+ *               "enum": [
+ *                 "bottom-right",
+ *                 "bottom-left"
+ *               ]
+ *             },
+ *             "agentPersona": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "alias": {
+ *                   "type": "string",
+ *                   "minLength": 2,
+ *                   "maxLength": 50
+ *                 },
+ *                 "profileImageUrl": {
+ *                   "type": "string",
+ *                   "nullable": true
+ *                 }
+ *               },
+ *               "required": [
+ *                 "alias"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "hoursOfOperation": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "timezone": {
+ *                   "type": "string"
+ *                 },
+ *                 "schedule": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "object",
+ *                     "properties": {
+ *                       "day": {
+ *                         "type": "string",
+ *                         "enum": [
+ *                           "monday",
+ *                           "tuesday",
+ *                           "wednesday",
+ *                           "thursday",
+ *                           "friday",
+ *                           "saturday",
+ *                           "sunday"
+ *                         ]
+ *                       },
+ *                       "start": {
+ *                         "type": "string",
+ *                         "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$"
+ *                       },
+ *                       "end": {
+ *                         "type": "string",
+ *                         "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$"
+ *                       },
+ *                       "isOpen": {
+ *                         "type": "boolean"
+ *                       }
+ *                     },
+ *                     "required": [
+ *                       "day",
+ *                       "start",
+ *                       "end",
+ *                       "isOpen"
+ *                     ],
+ *                     "additionalProperties": false
+ *                   }
+ *                 }
+ *               },
+ *               "required": [
+ *                 "timezone",
+ *                 "schedule"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "languagePreferences": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "defaultLanguage": {
+ *                   "type": "string"
+ *                 },
+ *                 "supportedLanguages": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "string"
+ *                   },
+ *                   "minItems": 1
+ *                 }
+ *               },
+ *               "required": [
+ *                 "defaultLanguage",
+ *                 "supportedLanguages"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "preChatFormFields": {
  *               "type": "array",
  *               "items": {
- *                 "type": "string"
+ *                 "type": "object",
+ *                 "properties": {
+ *                   "key": {
+ *                     "type": "string"
+ *                   },
+ *                   "label": {
+ *                     "type": "string"
+ *                   },
+ *                   "type": {
+ *                     "type": "string",
+ *                     "enum": [
+ *                       "text",
+ *                       "email",
+ *                       "number",
+ *                       "tel",
+ *                       "textarea",
+ *                       "select"
+ *                     ]
+ *                   },
+ *                   "required": {
+ *                     "type": "boolean"
+ *                   },
+ *                   "options": {
+ *                     "type": "array",
+ *                     "items": {
+ *                       "type": "string"
+ *                     }
+ *                   }
+ *                 },
+ *                 "required": [
+ *                   "key",
+ *                   "label",
+ *                   "type",
+ *                   "required"
+ *                 ],
+ *                 "additionalProperties": false
  *               }
  *             },
- *             "sortOrder": {
- *               "type": "integer",
- *               "minimum": 0
- *             },
- *             "isPublished": {
- *               "type": "boolean"
- *             },
- *             "isActive": {
- *               "type": "boolean"
+ *             "knowledgeBaseData": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "urls": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "string"
+ *                   }
+ *                 },
+ *                 "documents": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "string"
+ *                   }
+ *                 }
+ *               },
+ *               "additionalProperties": false
  *             }
  *           },
  *           "required": [
- *             "question",
- *             "answer"
+ *             "companyName",
+ *             "industryCategory",
+ *             "companySizeOrRole",
+ *             "brandColors",
+ *             "widgetPosition",
+ *             "agentPersona",
+ *             "hoursOfOperation",
+ *             "languagePreferences",
+ *             "knowledgeBaseData"
  *           ],
  *           "additionalProperties": false
  *         }
  *         
  *         Copy-ready example (encrypt this object):
  *         {
- *           "companyId": "string",
- *           "question": "string",
- *           "answer": "string",
- *           "category": "string",
- *           "tags": [
- *             "string"
+ *           "companyName": "string",
+ *           "websiteUrl": "string",
+ *           "industryCategory": "string",
+ *           "companySizeOrRole": "string",
+ *           "brandColors": {
+ *             "primary": "string",
+ *             "secondary": "string"
+ *           },
+ *           "widgetPosition": "string",
+ *           "agentPersona": {
+ *             "alias": "string",
+ *             "profileImageUrl": "string"
+ *           },
+ *           "hoursOfOperation": {
+ *             "timezone": "string",
+ *             "schedule": [
+ *               {
+ *                 "day": "string",
+ *                 "start": "string",
+ *                 "end": "string",
+ *                 "isOpen": true
+ *               }
+ *             ]
+ *           },
+ *           "languagePreferences": {
+ *             "defaultLanguage": "string",
+ *             "supportedLanguages": [
+ *               "string"
+ *             ]
+ *           },
+ *           "preChatFormFields": [
+ *             {
+ *               "key": "string",
+ *               "label": "string",
+ *               "type": "string",
+ *               "required": true,
+ *               "options": [
+ *                 "string"
+ *               ]
+ *             }
  *           ],
- *           "sortOrder": 0,
- *           "isPublished": true,
- *           "isActive": true
+ *           "knowledgeBaseData": {
+ *             "urls": [
+ *               "string"
+ *             ],
+ *             "documents": [
+ *               "string"
+ *             ]
+ *           }
  *         }
  *       content:
  *         application/json:
@@ -603,19 +803,249 @@
  *         {
  *           "type": "object",
  *           "properties": {
- *             "id": {
+ *             "companyName": {
+ *               "type": "string",
+ *               "minLength": 2,
+ *               "maxLength": 120
+ *             },
+ *             "websiteUrl": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "industryCategory": {
  *               "type": "string"
+ *             },
+ *             "companySizeOrRole": {
+ *               "type": "string"
+ *             },
+ *             "brandColors": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "primary": {
+ *                   "type": "string",
+ *                   "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+ *                 },
+ *                 "secondary": {
+ *                   "type": "string",
+ *                   "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+ *                   "nullable": true
+ *                 }
+ *               },
+ *               "required": [
+ *                 "primary"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "widgetPosition": {
+ *               "type": "string",
+ *               "enum": [
+ *                 "bottom-right",
+ *                 "bottom-left"
+ *               ]
+ *             },
+ *             "agentPersona": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "alias": {
+ *                   "type": "string",
+ *                   "minLength": 2,
+ *                   "maxLength": 50
+ *                 },
+ *                 "profileImageUrl": {
+ *                   "type": "string",
+ *                   "nullable": true
+ *                 }
+ *               },
+ *               "required": [
+ *                 "alias"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "hoursOfOperation": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "timezone": {
+ *                   "type": "string"
+ *                 },
+ *                 "schedule": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "object",
+ *                     "properties": {
+ *                       "day": {
+ *                         "type": "string",
+ *                         "enum": [
+ *                           "monday",
+ *                           "tuesday",
+ *                           "wednesday",
+ *                           "thursday",
+ *                           "friday",
+ *                           "saturday",
+ *                           "sunday"
+ *                         ]
+ *                       },
+ *                       "start": {
+ *                         "type": "string",
+ *                         "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$"
+ *                       },
+ *                       "end": {
+ *                         "type": "string",
+ *                         "pattern": "^([01]\\d|2[0-3]):([0-5]\\d)$"
+ *                       },
+ *                       "isOpen": {
+ *                         "type": "boolean"
+ *                       }
+ *                     },
+ *                     "required": [
+ *                       "day",
+ *                       "start",
+ *                       "end",
+ *                       "isOpen"
+ *                     ],
+ *                     "additionalProperties": false
+ *                   }
+ *                 }
+ *               },
+ *               "required": [
+ *                 "timezone",
+ *                 "schedule"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "languagePreferences": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "defaultLanguage": {
+ *                   "type": "string"
+ *                 },
+ *                 "supportedLanguages": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "string"
+ *                   },
+ *                   "minItems": 1
+ *                 }
+ *               },
+ *               "required": [
+ *                 "defaultLanguage",
+ *                 "supportedLanguages"
+ *               ],
+ *               "additionalProperties": false
+ *             },
+ *             "preChatFormFields": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "object",
+ *                 "properties": {
+ *                   "key": {
+ *                     "type": "string"
+ *                   },
+ *                   "label": {
+ *                     "type": "string"
+ *                   },
+ *                   "type": {
+ *                     "type": "string",
+ *                     "enum": [
+ *                       "text",
+ *                       "email",
+ *                       "number",
+ *                       "tel",
+ *                       "textarea",
+ *                       "select"
+ *                     ]
+ *                   },
+ *                   "required": {
+ *                     "type": "boolean"
+ *                   },
+ *                   "options": {
+ *                     "type": "array",
+ *                     "items": {
+ *                       "type": "string"
+ *                     }
+ *                   }
+ *                 },
+ *                 "required": [
+ *                   "key",
+ *                   "label",
+ *                   "type",
+ *                   "required"
+ *                 ],
+ *                 "additionalProperties": false
+ *               }
+ *             },
+ *             "knowledgeBaseData": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "urls": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "string"
+ *                   }
+ *                 },
+ *                 "documents": {
+ *                   "type": "array",
+ *                   "items": {
+ *                     "type": "string"
+ *                   }
+ *                 }
+ *               },
+ *               "additionalProperties": false
  *             }
  *           },
- *           "required": [
- *             "id"
- *           ],
  *           "additionalProperties": false
  *         }
  *         
  *         Copy-ready example (encrypt this object):
  *         {
- *           "id": "string"
+ *           "companyName": "string",
+ *           "websiteUrl": "string",
+ *           "industryCategory": "string",
+ *           "companySizeOrRole": "string",
+ *           "brandColors": {
+ *             "primary": "string",
+ *             "secondary": "string"
+ *           },
+ *           "widgetPosition": "string",
+ *           "agentPersona": {
+ *             "alias": "string",
+ *             "profileImageUrl": "string"
+ *           },
+ *           "hoursOfOperation": {
+ *             "timezone": "string",
+ *             "schedule": [
+ *               {
+ *                 "day": "string",
+ *                 "start": "string",
+ *                 "end": "string",
+ *                 "isOpen": true
+ *               }
+ *             ]
+ *           },
+ *           "languagePreferences": {
+ *             "defaultLanguage": "string",
+ *             "supportedLanguages": [
+ *               "string"
+ *             ]
+ *           },
+ *           "preChatFormFields": [
+ *             {
+ *               "key": "string",
+ *               "label": "string",
+ *               "type": "string",
+ *               "required": true,
+ *               "options": [
+ *                 "string"
+ *               ]
+ *             }
+ *           ],
+ *           "knowledgeBaseData": {
+ *             "urls": [
+ *               "string"
+ *             ],
+ *             "documents": [
+ *               "string"
+ *             ]
+ *           }
  *         }
  *       content:
  *         application/json:
@@ -864,19 +1294,56 @@
  *         {
  *           "type": "object",
  *           "properties": {
- *             "id": {
- *               "type": "string"
+ *             "companyId": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "question": {
+ *               "type": "string",
+ *               "minLength": 3,
+ *               "maxLength": 500
+ *             },
+ *             "answer": {
+ *               "type": "string",
+ *               "minLength": 3
+ *             },
+ *             "category": {
+ *               "type": "string",
+ *               "maxLength": 120,
+ *               "nullable": true
+ *             },
+ *             "tags": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "string"
+ *               }
+ *             },
+ *             "sortOrder": {
+ *               "type": "integer",
+ *               "minimum": 0
+ *             },
+ *             "isPublished": {
+ *               "type": "boolean"
+ *             },
+ *             "isActive": {
+ *               "type": "boolean"
  *             }
  *           },
- *           "required": [
- *             "id"
- *           ],
  *           "additionalProperties": false
  *         }
  *         
  *         Copy-ready example (encrypt this object):
  *         {
- *           "id": "string"
+ *           "companyId": "string",
+ *           "question": "string",
+ *           "answer": "string",
+ *           "category": "string",
+ *           "tags": [
+ *             "string"
+ *           ],
+ *           "sortOrder": 0,
+ *           "isPublished": true,
+ *           "isActive": true
  *         }
  *       content:
  *         application/json:
@@ -986,19 +1453,19 @@
  *         {
  *           "type": "object",
  *           "properties": {
- *             "id": {
- *               "type": "string"
+ *             "isPublished": {
+ *               "type": "boolean"
  *             }
  *           },
  *           "required": [
- *             "id"
+ *             "isPublished"
  *           ],
  *           "additionalProperties": false
  *         }
  *         
  *         Copy-ready example (encrypt this object):
  *         {
- *           "id": "string"
+ *           "isPublished": true
  *         }
  *       content:
  *         application/json:
@@ -1148,14 +1615,14 @@
  *               "type": "string",
  *               "nullable": true
  *             },
- *             "question": {
+ *             "name": {
  *               "type": "string",
- *               "minLength": 3,
- *               "maxLength": 500
+ *               "minLength": 2,
+ *               "maxLength": 200
  *             },
- *             "answer": {
+ *             "description": {
  *               "type": "string",
- *               "minLength": 3
+ *               "nullable": true
  *             },
  *             "category": {
  *               "type": "string",
@@ -1168,20 +1635,53 @@
  *                 "type": "string"
  *               }
  *             },
- *             "sortOrder": {
- *               "type": "integer",
- *               "minimum": 0
- *             },
  *             "isPublished": {
  *               "type": "boolean"
  *             },
  *             "isActive": {
  *               "type": "boolean"
+ *             },
+ *             "sortOrder": {
+ *               "type": "integer",
+ *               "minimum": 0
+ *             },
+ *             "sla": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "firstResponseMins": {
+ *                   "type": "integer",
+ *                   "minimum": 0,
+ *                   "nullable": true
+ *                 },
+ *                 "resolutionMins": {
+ *                   "type": "integer",
+ *                   "minimum": 0,
+ *                   "nullable": true
+ *                 }
+ *               },
+ *               "additionalProperties": false
+ *             },
+ *             "channels": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "string",
+ *                 "enum": [
+ *                   "chat",
+ *                   "email",
+ *                   "voice"
+ *                 ]
+ *               },
+ *               "minItems": 1
+ *             },
+ *             "metadata": {
+ *               "type": "object",
+ *               "properties": {},
+ *               "additionalProperties": false,
+ *               "nullable": true
  *             }
  *           },
  *           "required": [
- *             "question",
- *             "answer"
+ *             "name"
  *           ],
  *           "additionalProperties": false
  *         }
@@ -1189,15 +1689,23 @@
  *         Copy-ready example (encrypt this object):
  *         {
  *           "companyId": "string",
- *           "question": "string",
- *           "answer": "string",
+ *           "name": "string",
+ *           "description": "string",
  *           "category": "string",
  *           "tags": [
  *             "string"
  *           ],
- *           "sortOrder": 0,
  *           "isPublished": true,
- *           "isActive": true
+ *           "isActive": true,
+ *           "sortOrder": 0,
+ *           "sla": {
+ *             "firstResponseMins": 0,
+ *             "resolutionMins": 0
+ *           },
+ *           "channels": [
+ *             "string"
+ *           ],
+ *           "metadata": {}
  *         }
  *       content:
  *         application/json:
@@ -1290,19 +1798,98 @@
  *         {
  *           "type": "object",
  *           "properties": {
- *             "id": {
- *               "type": "string"
+ *             "companyId": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "name": {
+ *               "type": "string",
+ *               "minLength": 2,
+ *               "maxLength": 200
+ *             },
+ *             "description": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "category": {
+ *               "type": "string",
+ *               "maxLength": 120,
+ *               "nullable": true
+ *             },
+ *             "tags": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "string"
+ *               }
+ *             },
+ *             "isPublished": {
+ *               "type": "boolean"
+ *             },
+ *             "isActive": {
+ *               "type": "boolean"
+ *             },
+ *             "sortOrder": {
+ *               "type": "integer",
+ *               "minimum": 0
+ *             },
+ *             "sla": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "firstResponseMins": {
+ *                   "type": "integer",
+ *                   "minimum": 0,
+ *                   "nullable": true
+ *                 },
+ *                 "resolutionMins": {
+ *                   "type": "integer",
+ *                   "minimum": 0,
+ *                   "nullable": true
+ *                 }
+ *               },
+ *               "additionalProperties": false
+ *             },
+ *             "channels": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "string",
+ *                 "enum": [
+ *                   "chat",
+ *                   "email",
+ *                   "voice"
+ *                 ]
+ *               },
+ *               "minItems": 1
+ *             },
+ *             "metadata": {
+ *               "type": "object",
+ *               "properties": {},
+ *               "additionalProperties": false,
+ *               "nullable": true
  *             }
  *           },
- *           "required": [
- *             "id"
- *           ],
  *           "additionalProperties": false
  *         }
  *         
  *         Copy-ready example (encrypt this object):
  *         {
- *           "id": "string"
+ *           "companyId": "string",
+ *           "name": "string",
+ *           "description": "string",
+ *           "category": "string",
+ *           "tags": [
+ *             "string"
+ *           ],
+ *           "isPublished": true,
+ *           "isActive": true,
+ *           "sortOrder": 0,
+ *           "sla": {
+ *             "firstResponseMins": 0,
+ *             "resolutionMins": 0
+ *           },
+ *           "channels": [
+ *             "string"
+ *           ],
+ *           "metadata": {}
  *         }
  *       content:
  *         application/json:
@@ -1412,19 +1999,19 @@
  *         {
  *           "type": "object",
  *           "properties": {
- *             "id": {
- *               "type": "string"
+ *             "isPublished": {
+ *               "type": "boolean"
  *             }
  *           },
  *           "required": [
- *             "id"
+ *             "isPublished"
  *           ],
  *           "additionalProperties": false
  *         }
  *         
  *         Copy-ready example (encrypt this object):
  *         {
- *           "id": "string"
+ *           "isPublished": true
  *         }
  *       content:
  *         application/json:
@@ -1574,40 +2161,55 @@
  *               "type": "string",
  *               "nullable": true
  *             },
- *             "question": {
+ *             "firstName": {
  *               "type": "string",
- *               "minLength": 3,
- *               "maxLength": 500
+ *               "minLength": 2,
+ *               "maxLength": 100
  *             },
- *             "answer": {
+ *             "lastName": {
  *               "type": "string",
- *               "minLength": 3
+ *               "minLength": 2,
+ *               "maxLength": 100
  *             },
- *             "category": {
+ *             "email": {
  *               "type": "string",
- *               "maxLength": 120,
+ *               "format": "email"
+ *             },
+ *             "phone": {
+ *               "type": "string",
  *               "nullable": true
  *             },
- *             "tags": {
+ *             "roles": {
  *               "type": "array",
  *               "items": {
  *                 "type": "string"
  *               }
  *             },
- *             "sortOrder": {
- *               "type": "integer",
- *               "minimum": 0
- *             },
- *             "isPublished": {
- *               "type": "boolean"
+ *             "status": {
+ *               "type": "string",
+ *               "enum": [
+ *                 "invited",
+ *                 "active",
+ *                 "suspended"
+ *               ]
  *             },
  *             "isActive": {
  *               "type": "boolean"
+ *             },
+ *             "invitedBy": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "invitedAt": {
+ *               "type": "string",
+ *               "format": "date-time",
+ *               "nullable": true
  *             }
  *           },
  *           "required": [
- *             "question",
- *             "answer"
+ *             "firstName",
+ *             "lastName",
+ *             "email"
  *           ],
  *           "additionalProperties": false
  *         }
@@ -1615,15 +2217,17 @@
  *         Copy-ready example (encrypt this object):
  *         {
  *           "companyId": "string",
- *           "question": "string",
- *           "answer": "string",
- *           "category": "string",
- *           "tags": [
+ *           "firstName": "string",
+ *           "lastName": "string",
+ *           "email": "string",
+ *           "phone": "string",
+ *           "roles": [
  *             "string"
  *           ],
- *           "sortOrder": 0,
- *           "isPublished": true,
- *           "isActive": true
+ *           "status": "string",
+ *           "isActive": true,
+ *           "invitedBy": "string",
+ *           "invitedAt": "string"
  *         }
  *       content:
  *         application/json:
@@ -1716,19 +2320,72 @@
  *         {
  *           "type": "object",
  *           "properties": {
- *             "id": {
- *               "type": "string"
+ *             "companyId": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "firstName": {
+ *               "type": "string",
+ *               "minLength": 2,
+ *               "maxLength": 100
+ *             },
+ *             "lastName": {
+ *               "type": "string",
+ *               "minLength": 2,
+ *               "maxLength": 100
+ *             },
+ *             "email": {
+ *               "type": "string",
+ *               "format": "email"
+ *             },
+ *             "phone": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "roles": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "string"
+ *               }
+ *             },
+ *             "status": {
+ *               "type": "string",
+ *               "enum": [
+ *                 "invited",
+ *                 "active",
+ *                 "suspended"
+ *               ]
+ *             },
+ *             "isActive": {
+ *               "type": "boolean"
+ *             },
+ *             "invitedBy": {
+ *               "type": "string",
+ *               "nullable": true
+ *             },
+ *             "invitedAt": {
+ *               "type": "string",
+ *               "format": "date-time",
+ *               "nullable": true
  *             }
  *           },
- *           "required": [
- *             "id"
- *           ],
  *           "additionalProperties": false
  *         }
  *         
  *         Copy-ready example (encrypt this object):
  *         {
- *           "id": "string"
+ *           "companyId": "string",
+ *           "firstName": "string",
+ *           "lastName": "string",
+ *           "email": "string",
+ *           "phone": "string",
+ *           "roles": [
+ *             "string"
+ *           ],
+ *           "status": "string",
+ *           "isActive": true,
+ *           "invitedBy": "string",
+ *           "invitedAt": "string"
  *         }
  *       content:
  *         application/json:
@@ -1838,19 +2495,24 @@
  *         {
  *           "type": "object",
  *           "properties": {
- *             "id": {
- *               "type": "string"
+ *             "status": {
+ *               "type": "string",
+ *               "enum": [
+ *                 "invited",
+ *                 "active",
+ *                 "suspended"
+ *               ]
  *             }
  *           },
  *           "required": [
- *             "id"
+ *             "status"
  *           ],
  *           "additionalProperties": false
  *         }
  *         
  *         Copy-ready example (encrypt this object):
  *         {
- *           "id": "string"
+ *           "status": "string"
  *         }
  *       content:
  *         application/json:
@@ -1899,19 +2561,25 @@
  *         {
  *           "type": "object",
  *           "properties": {
- *             "id": {
- *               "type": "string"
+ *             "roles": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "string"
+ *               },
+ *               "minItems": 1
  *             }
  *           },
  *           "required": [
- *             "id"
+ *             "roles"
  *           ],
  *           "additionalProperties": false
  *         }
  *         
  *         Copy-ready example (encrypt this object):
  *         {
- *           "id": "string"
+ *           "roles": [
+ *             "string"
+ *           ]
  *         }
  *       content:
  *         application/json:
