@@ -1,0 +1,584 @@
+Segment 1 Draft (Foundation)
+1. Business Context
+The Super Admin Portal is the platform control center for a multi-tenant customer support ecosystem consisting of Chat Widget, Client Portal, and Super Admin Portal.
+It enables internal operators to govern tenant operations, security, and platform configuration while ensuring controlled access to customer-related data.
+
+2. Problem Statement
+Without centralized governance, tenant support operations become inconsistent, security controls weaken, and platform-wide visibility is limited.
+The Super Admin Portal solves this by providing unified administrative control, monitoring, and policy enforcement across modules.
+
+3. Business Objectives
+Centralize administrative control across all tenants.
+Enforce secure, role-based access to sensitive data.
+Standardize onboarding, support knowledge, and team management workflows.
+Improve operational oversight through dashboard/analytics visibility.
+Provide auditable actions for governance and compliance readiness.
+4. Stakeholders
+Platform Owners / Leadership
+Super Admin Operations Team
+Security/Compliance Team
+QA/Test Engineering Team
+Client Admins (indirect beneficiaries)
+End Customers (indirect beneficiaries)
+5. Product Vision (Super Admin Scope)
+Provide a secure, auditable, and scalable control interface that manages tenant setup, support knowledge, service catalog, staff governance, widget settings, and operational insights.
+
+6. Assumptions
+Platform is multi-tenant (companyId/tenantId scoped).
+API is the source of truth for portal operations.
+Role-based authorization is enforced at middleware level.
+Sensitive write operations may require encrypted payload contract.
+Swagger documentation is used for integration and QA verification.
+
+Segment 2: Scope
+7. In-Scope (This BRD Release)
+7.1 Core Modules
+Auth
+Login
+Register (admin-controlled)
+Role-based access enforcement
+Onboarding
+Create onboarding profile
+List all onboarding records
+Get onboarding by ID
+Update onboarding by ID
+Delete onboarding by ID
+FAQs
+Create, list, get by ID, update, delete
+Publish/unpublish
+Reorder
+Public retrieval endpoint
+Services
+Create, list, get by ID, update, delete
+Publish/unpublish
+Reorder
+Public retrieval endpoint
+Staff
+Create, list, get by ID, update, delete
+Update status
+Update roles
+Resend invite
+Roles/permissions listing
+Dashboard (baseline)
+Operational overview data availability endpoints (summary-level)
+Widget (admin control surface)
+Widget-related platform configuration endpoints required by Super Admin flow
+Analytics (baseline)
+Read-only metrics endpoints required for monitoring and oversight
+7.2 Platform Capabilities
+Request validation via Joi-based middleware
+Route-level authorization (general, hasPermission)
+Encrypted request handling for designated write endpoints
+Swagger auto-generation with encrypted and plain-payload guidance
+Standardized API response contract and error handling
+8. Out of Scope (Current BRD Release)
+Billing/subscription/payment management
+Advanced AI orchestration features beyond existing endpoints
+Full customer lifecycle CRM
+Mobile apps
+Third-party marketplace integrations not already in backend
+Full compliance certification process (only technical readiness controls are in scope)
+Disaster-recovery implementation details (covered at infra/program level)
+9. Release Boundaries
+Focus is Super Admin Portal backend behavior and API contracts.
+Frontend UI polish/UX refinements are not primary BRD scope.
+QA scope includes API, authorization, encryption contract, and module workflows.
+New modules can be appended via BRD change control without invalidating this baseline.
+10. Dependencies
+MongoDB availability and schema consistency
+JWT/auth secret configuration
+Encryption keys/IV configuration
+Middleware chain order correctness
+Deployment environment variables (dev/staging/prod)
+Swagger generation pipeline working with route and validator mapping
+
+Segment 3: Actors, Roles, Access Model
+11. Actor Definitions
+Super Admin
+Internal platform operator with highest administrative authority.
+Can manage platform-wide modules and cross-tenant governance actions.
+Admin
+Operational administrator with high privileges within assigned scope.
+Can manage onboarding, FAQs, services, and staff where permitted.
+Supervisor (planned/optional role in staff model)
+Team oversight role for support operations.
+Limited administrative actions based on assigned permissions.
+Agent (planned/optional role in staff model)
+Operational support role with restricted management permissions.
+System/Service Actor
+Internal process actor (webhooks/jobs/integration services) where applicable.
+12. Role-Based Access Control (RBAC) Principles
+Default deny: access is denied unless explicitly permitted.
+Route protection is mandatory for non-public endpoints.
+Privileged write actions require both authentication and permission checks.
+Public endpoints expose only non-sensitive, approved/published records.
+Role assignment changes must be auditable.
+13. Permission Model (Current and Target)
+13.1 Base Permission Actions
+CREATE
+READ
+UPDATE
+DELETE
+13.2 Staff-Specific Permission Intents
+staff:create
+staff:read
+staff:update
+staff:delete
+staff:assign_roles
+staff:change_status
+13.3 Recommended Role-to-Permission Baseline
+super_admin
+Full CRUD across all modules
+Role/status assignment
+Platform-level configuration access
+admin
+CRUD for onboarding, FAQs, services, staff (within assigned scope)
+No super-admin-only governance actions (if restricted by policy)
+supervisor
+Read-heavy access + limited updates for operational modules (policy-driven)
+agent
+Minimal read/update only where operationally required (policy-driven)
+14. Tenant and Data Access Boundaries
+Data must be logically scoped by tenantId/companyId.
+Super Admin can access cross-tenant data for governance and support.
+Admin/Supervisor/Agent access must be restricted to assigned tenant scope.
+Public endpoints must not expose private/internal-only fields.
+Cross-tenant access attempts outside permission scope must return forbidden.
+15. Authentication and Session Rules
+JWT-based authentication for protected routes.
+Auth middleware must attach user context (e.g., role/user ID) to request.
+Invalid/missing/expired token must block access.
+Sensitive routes must not execute business logic before auth checks pass.
+16. Encryption and Access Contract
+Designated write endpoints require encrypted body contract (textData) from clients.
+Swagger/test tooling may use controlled bypass logic for plain-payload testing.
+Decryption failures must return safe errors without sensitive leakage.
+Access control is enforced regardless of encryption state.
+17. Audit and Accountability (Access-Related)
+Critical admin actions should log actor, action, timestamp, and route context.
+Role/status/permission changes are high-priority audit events.
+Security-related failures (auth/decrypt) must be logged safely.
+
+Segment 4: Functional Requirements (FR)
+18. Auth Module Requirements
+FR-AUTH-001
+System shall authenticate users via login endpoint using valid credentials.
+
+FR-AUTH-002
+System shall reject invalid credentials with appropriate unauthorized response.
+
+FR-AUTH-003
+System shall support admin-controlled user registration flow.
+
+FR-AUTH-004
+System shall attach authenticated user context (user ID, roles) for protected route processing.
+
+FR-AUTH-005
+System shall enforce RBAC on protected routes based on role/permission checks.
+
+19. Onboarding Module Requirements
+FR-ONB-001
+Authorized users shall create onboarding records for business setup.
+
+FR-ONB-002
+Authorized users shall retrieve paginated onboarding lists.
+
+FR-ONB-003
+Authorized users shall retrieve a single onboarding record by ID.
+
+FR-ONB-004
+Authorized users shall update onboarding records by ID.
+
+FR-ONB-005
+Authorized users shall delete onboarding records by ID.
+
+FR-ONB-006
+System shall validate onboarding payload structure before controller execution.
+
+20. FAQ Module Requirements
+FR-FAQ-001
+Authorized users shall create FAQ entries.
+
+FR-FAQ-002
+Authorized users shall list FAQs with search/filter/pagination support.
+
+FR-FAQ-003
+Authorized users shall retrieve FAQ by ID.
+
+FR-FAQ-004
+Authorized users shall update FAQ by ID.
+
+FR-FAQ-005
+Authorized users shall delete FAQ by ID.
+
+FR-FAQ-006
+Authorized users shall publish/unpublish FAQ entries.
+
+FR-FAQ-007
+Authorized users shall reorder FAQ entries for display sequence.
+
+FR-FAQ-008
+Public endpoint shall return only active + published FAQs.
+
+21. Services Module Requirements
+FR-SVC-001
+Authorized users shall create service catalog entries.
+
+FR-SVC-002
+Authorized users shall list services with search/filter/pagination support.
+
+FR-SVC-003
+Authorized users shall retrieve service by ID.
+
+FR-SVC-004
+Authorized users shall update service by ID.
+
+FR-SVC-005
+Authorized users shall delete service by ID.
+
+FR-SVC-006
+Authorized users shall publish/unpublish services.
+
+FR-SVC-007
+Authorized users shall reorder services for display sequence.
+
+FR-SVC-008
+Public endpoint shall return only active + published services.
+
+22. Staff Module Requirements
+FR-STF-001
+Authorized users shall create staff profiles.
+
+FR-STF-002
+Authorized users shall list staff with search/filter/pagination support.
+
+FR-STF-003
+Authorized users shall retrieve staff by ID.
+
+FR-STF-004
+Authorized users shall update staff by ID.
+
+FR-STF-005
+Authorized users shall delete staff by ID.
+
+FR-STF-006
+Authorized users shall update staff status (invited, active, suspended).
+
+FR-STF-007
+Authorized users shall update assigned roles for staff.
+
+FR-STF-008
+Authorized users shall trigger resend-invite flow.
+
+FR-STF-009
+Authorized users shall retrieve available staff roles list.
+
+FR-STF-010
+Authorized users shall retrieve available staff permissions list.
+
+23. Widget Module Requirements (Current Release Baseline)
+FR-WGT-001
+System shall expose widget configuration management endpoints for admin use.
+
+FR-WGT-002
+System shall enforce access control for widget configuration updates.
+
+FR-WGT-003
+System shall return sanitized widget config data for permitted users.
+
+24. Dashboard Module Requirements (Current Release Baseline)
+FR-DSH-001
+System shall provide summary-level operational metrics for super admin visibility.
+
+FR-DSH-002
+System shall restrict dashboard data access to authorized roles.
+
+25. Analytics Module Requirements (Current Release Baseline)
+FR-ANL-001
+System shall provide read-only analytics endpoints for monitoring.
+
+FR-ANL-002
+System shall enforce role/tenant-aware access for analytics retrieval.
+
+FR-ANL-003
+System shall support filter parameters where applicable.
+
+26. Validation and Error Handling Requirements
+FR-VAL-001
+System shall validate request payload/query/params before business logic execution.
+
+FR-VAL-002
+System shall return deterministic error responses for validation failures.
+
+FR-VAL-003
+System shall return not-found responses for missing entity IDs.
+
+27. Encryption Contract Requirements
+FR-ENC-001
+System shall require encrypted request payload for configured write routes.
+
+FR-ENC-002
+System shall decrypt valid encrypted payload and pass normalized body downstream.
+
+FR-ENC-003
+System shall reject malformed or undecryptable payloads safely.
+
+FR-ENC-004
+System shall allow Swagger/plain testing path where explicitly configured.
+
+Segment 5: Non-Functional, Security, and Compliance Requirements
+28. Non-Functional Requirements (NFR)
+NFR-001 Availability
+The API services shall be deployable for continuous operational use with environment-specific configuration (dev/staging/prod).
+
+NFR-002 Reliability
+The system shall return stable and predictable API behavior for supported request contracts.
+
+NFR-003 Performance
+Common read operations (list/get) shall support pagination/filtering to prevent unbounded payload responses.
+
+NFR-004 Scalability
+Module architecture shall remain extensible for additional resources/endpoints without breaking existing contracts.
+
+NFR-005 Maintainability
+Codebase shall follow modular separation (model, service, controller, router, validation, middleware, docs mapping).
+
+NFR-006 Observability
+Operational and error logs shall be available for debugging and incident analysis.
+
+NFR-007 Documentation Quality
+Swagger docs shall be automatically generated and reflect current route/validation contracts.
+
+NFR-008 Interoperability
+API contracts shall support frontend and QA integrations through documented request/response structures.
+
+29. Security Requirements (SEC)
+SEC-001 Authentication Enforcement
+Protected endpoints shall require valid authentication tokens.
+
+SEC-002 Authorization Enforcement
+Protected endpoints shall require role/permission checks before executing business logic.
+
+SEC-003 Least Privilege
+Users shall access only data/actions required by assigned roles.
+
+SEC-004 Tenant Boundary Protection
+Cross-tenant data access shall be blocked unless explicitly authorized for super admin context.
+
+SEC-005 Encrypted Payload Enforcement
+Configured write endpoints shall require encrypted payload format in non-swagger client flows.
+
+SEC-006 Sensitive Error Handling
+Error responses shall not expose secrets, encryption keys, or internal stack details.
+
+SEC-007 Logging Safety
+Security and decryption logs shall avoid plaintext sensitive data leakage.
+
+SEC-008 Public Data Restriction
+Public endpoints shall expose only approved fields and records (e.g., active + published).
+
+SEC-009 Input Validation
+All supported payload/query/path inputs shall be validated before processing.
+
+SEC-010 Auditability
+Critical security-relevant actions (auth failures, role/status updates, publish actions) shall be traceable.
+
+30. Privacy Requirements (PRV)
+PRV-001 Controlled Access
+Customer-related data shall only be accessible to authorized users.
+
+PRV-002 Data Minimization
+Public or lower-privilege responses shall return only necessary fields.
+
+PRV-003 Internal-Only Governance
+Super Admin capabilities shall be restricted to internal trusted users.
+
+PRV-004 Sensitive Field Protection
+Sensitive identity and operational fields shall not be exposed unintentionally in API responses/logs.
+
+31. Compliance Readiness Requirements (CMP)
+CMP-001 Policy Alignment
+System behavior shall align with internal data protection policies and access governance standards.
+
+CMP-002 Traceable Admin Actions
+Administrative operations shall be sufficiently logged to support compliance review.
+
+CMP-003 Consistent Access Control
+RBAC enforcement shall be consistently applied across modules.
+
+CMP-004 Documentation Evidence
+API documentation and validation mappings shall provide evidence of controlled contracts.
+
+32. Operational Requirements (OPS)
+OPS-001 Configuration Management
+Environment variables shall control secrets, encryption toggles, and runtime behavior.
+
+OPS-002 Safe Deployment
+Release process shall include branch merge controls and deployment verification.
+
+OPS-003 Post-Deployment Validation
+After deployment, critical endpoints shall be smoke-tested (auth, protected CRUD, public retrieval).
+
+OPS-004 Backward Compatibility
+Changes should avoid breaking existing integrated frontend flows unless versioned/migrated.
+
+Segment 6: API Capability Map (Super Admin Backend)
+33. Auth Capability Map
+POST /api/widget/auth/login
+Capability: authenticate user and issue access context/token.
+Access: public.
+Key validation: credential payload.
+Security notes: encrypted body required in client flow (swagger plain allowed by middleware logic).
+POST /api/widget/auth/register
+Capability: create admin/staff user account (policy-controlled).
+Access: protected (admin/super_admin as configured).
+Key validation: user identity + role payload.
+Security notes: encrypted body required in client flow.
+GET /api/widget/auth/check
+Capability: service/auth health check.
+Access: public/controlled based on environment policy.
+34. Onboarding Capability Map
+POST /api/widget/onboarding/create
+Capability: create onboarding configuration record.
+Access: admin/super_admin.
+Encrypted write: yes.
+GET /api/widget/onboarding/all
+Capability: list onboarding records with pagination/search.
+Access: admin/super_admin.
+Encrypted write: no.
+GET /api/widget/onboarding/{id}
+Capability: retrieve onboarding record by ID.
+Access: admin/super_admin.
+Encrypted write: no.
+PATCH /api/widget/onboarding/{id}
+Capability: update onboarding record.
+Access: admin/super_admin.
+Encrypted write: yes.
+DELETE /api/widget/onboarding/{id}
+Capability: delete onboarding record.
+Access: admin/super_admin.
+Encrypted write: yes.
+35. FAQ Capability Map
+POST /api/widget/faqs/create
+Capability: create FAQ item.
+Access: admin/super_admin.
+Encrypted write: yes.
+GET /api/widget/faqs/all
+Capability: list FAQs (search/filter/pagination).
+Access: admin/super_admin.
+Encrypted write: no.
+GET /api/widget/faqs/{id}
+Capability: retrieve FAQ by ID.
+Access: admin/super_admin.
+Encrypted write: no.
+PATCH /api/widget/faqs/{id}
+Capability: update FAQ.
+Access: admin/super_admin.
+Encrypted write: yes.
+DELETE /api/widget/faqs/{id}
+Capability: delete FAQ.
+Access: admin/super_admin.
+Encrypted write: yes.
+PATCH /api/widget/faqs/{id}/publish
+Capability: publish/unpublish FAQ.
+Access: admin/super_admin.
+Encrypted write: yes.
+PATCH /api/widget/faqs/reorder
+Capability: reorder FAQ display sequence.
+Access: admin/super_admin.
+Encrypted write: yes.
+GET /api/widget/faqs/public
+Capability: retrieve public FAQ list.
+Access: public.
+Visibility: active + published only.
+36. Services Capability Map
+POST /api/widget/services/create
+Capability: create service catalog item.
+Access: admin/super_admin.
+Encrypted write: yes.
+GET /api/widget/services/all
+Capability: list services (search/filter/pagination).
+Access: admin/super_admin.
+Encrypted write: no.
+GET /api/widget/services/{id}
+Capability: retrieve service by ID.
+Access: admin/super_admin.
+Encrypted write: no.
+PATCH /api/widget/services/{id}
+Capability: update service.
+Access: admin/super_admin.
+Encrypted write: yes.
+DELETE /api/widget/services/{id}
+Capability: delete service.
+Access: admin/super_admin.
+Encrypted write: yes.
+PATCH /api/widget/services/{id}/publish
+Capability: publish/unpublish service.
+Access: admin/super_admin.
+Encrypted write: yes.
+PATCH /api/widget/services/reorder
+Capability: reorder service display sequence.
+Access: admin/super_admin.
+Encrypted write: yes.
+GET /api/widget/services/public
+Capability: retrieve public service list.
+Access: public.
+Visibility: active + published only.
+37. Staff Capability Map
+POST /api/widget/staff/create
+Capability: create staff profile.
+Access: admin/super_admin.
+Encrypted write: yes.
+GET /api/widget/staff/all
+Capability: list staff (search/filter/pagination).
+Access: admin/super_admin.
+Encrypted write: no.
+GET /api/widget/staff/{id}
+Capability: retrieve staff by ID.
+Access: admin/super_admin.
+Encrypted write: no.
+PATCH /api/widget/staff/{id}
+Capability: update staff profile.
+Access: admin/super_admin.
+Encrypted write: yes.
+DELETE /api/widget/staff/{id}
+Capability: delete staff profile.
+Access: admin/super_admin.
+Encrypted write: yes.
+PATCH /api/widget/staff/{id}/status
+Capability: change staff lifecycle status.
+Access: admin/super_admin.
+Encrypted write: yes.
+PATCH /api/widget/staff/{id}/roles
+Capability: update staff role assignments.
+Access: admin/super_admin.
+Encrypted write: yes.
+POST /api/widget/staff/{id}/resend-invite
+Capability: resend invitation action.
+Access: admin/super_admin.
+Encrypted write: yes.
+GET /api/widget/staff/roles/all
+Capability: retrieve allowed roles list.
+Access: admin/super_admin.
+Encrypted write: no.
+GET /api/widget/staff/permissions/all
+Capability: retrieve allowed permissions list.
+Access: admin/super_admin.
+Encrypted write: no.
+38. Dashboard / Widget / Analytics Capability Baseline
+Dashboard endpoints
+Capability: platform monitoring summaries and operational health visibility.
+Access: authorized admin roles.
+Widget configuration endpoints
+Capability: retrieve/update widget operational settings.
+Access: authorized admin roles.
+Encrypted write: based on route policy.
+Analytics endpoints
+Capability: read-only performance and usage insights.
+Access: authorized roles with tenant boundary rules.
+39. API Contract Rules (Cross-Cutting)
+Standard validation middleware applies to payload/query/params.
+Protected endpoints require JWT + RBAC check.
+Encrypted write routes require textData in non-swagger flows.
+Swagger must include plain payload schema and encrypt-ready example for encrypted routes.
+Public endpoints must not leak restricted/internal fields.
