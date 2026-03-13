@@ -567,6 +567,65 @@ const updateStaffRolesInputValidationSchema = () =>
     roles: Joi.array().items(Joi.string().trim()).min(1).required(),
   });
 
+const widgetCompanyIdParamValidationSchema = () =>
+  Joi.object({
+    companyId: Joi.string().trim().required().messages({
+      "any.required": "companyId param is required",
+      "string.empty": "companyId param is required",
+    }),
+  });
+
+const upsertWidgetConfigInputValidationSchema = () =>
+  Joi.object({
+    companyId: Joi.string().trim().required().messages({
+      "any.required": "companyId is required",
+      "string.empty": "companyId is required",
+    }),
+    widgetEnabled: Joi.boolean().optional(),
+    allowedDomains: Joi.array().items(Joi.string().trim().uri()).optional(),
+    security: Joi.object({
+      requireOriginCheck: Joi.boolean().optional(),
+    }).optional(),
+    metadata: Joi.object().optional().allow(null),
+  });
+
+const patchAllowedDomainsInputValidationSchema = () =>
+  Joi.object({
+    allowedDomains: Joi.array()
+      .items(Joi.string().trim().uri())
+      .required()
+      .messages({
+        "any.required": "allowedDomains is required",
+      }),
+  });
+
+const patchWidgetStatusInputValidationSchema = () =>
+  Joi.object({
+    widgetEnabled: Joi.boolean().required().messages({
+      "any.required": "widgetEnabled is required",
+    }),
+  });
+
+const analyticsQueryInputValidationSchema = () =>
+  Joi.object({
+    companyId: Joi.string().trim().optional().allow(""),
+    period: Joi.string().trim().valid("day", "week", "month").optional(),
+    fromDate: Joi.string()
+      .optional()
+      .allow("")
+      .pattern(/^\d{4}-\d{2}-\d{2}$/)
+      .messages({
+        "string.pattern.base": "fromDate must be in YYYY-MM-DD format",
+      }),
+    toDate: Joi.string()
+      .optional()
+      .allow("")
+      .pattern(/^\d{4}-\d{2}-\d{2}$/)
+      .messages({
+        "string.pattern.base": "toDate must be in YYYY-MM-DD format",
+      }),
+  });
+
 
 
 export {
@@ -617,4 +676,14 @@ export {
   staffIdParamValidationSchema,
   updateStaffStatusInputValidationSchema,
   updateStaffRolesInputValidationSchema,
+
+  // widget
+  widgetCompanyIdParamValidationSchema,
+  upsertWidgetConfigInputValidationSchema,
+  patchAllowedDomainsInputValidationSchema,
+  patchWidgetStatusInputValidationSchema,
+
+  // analytics
+  analyticsQueryInputValidationSchema,
+
 };

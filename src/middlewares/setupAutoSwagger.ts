@@ -63,6 +63,10 @@ const isEncryptedRequestRoute = (swaggerPath: string, method: string) => {
     /\/staff\/\{id\}\/status$/,
     /\/staff\/\{id\}\/roles$/,
     /\/staff\/\{id\}\/resend-invite$/,
+    /\/widgetConfig\/\{companyId\}\/config$/,
+    /\/widgetConfig\/\{companyId\}\/token\/regenerate$/,
+    /\/widgetConfig\/\{companyId\}\/allowed-domains$/,
+    /\/widgetConfig\/\{companyId\}\/status$/,
 
   ].some((rx) => rx.test(p));
 };
@@ -309,6 +313,18 @@ const getFallbackEncryptedPlainSchema = (
     return pick("updateStaffRolesInput");
   if (m === "post" && /\/staff\/\{id\}\/resend-invite$/.test(p))
     return pick("staffIdParamInput");
+
+  // Widget Config
+  if (m === "post" && /\/widgetConfig\/\{companyId\}\/config$/.test(p))
+    return pick("upsertWidgetConfigInput");
+  if (m === "patch" && /\/widgetConfig\/\{companyId\}\/allowed-domains$/.test(p))
+    return pick("patchAllowedDomainsInput");
+  if (m === "patch" && /\/widgetConfig\/\{companyId\}\/status$/.test(p))
+    return pick("patchWidgetStatusInput");
+  if (m === "patch" && /\/widgetConfig\/\{companyId\}\/token\/regenerate$/.test(p))
+    return pick("widgetCompanyIdParamInput");
+
+
 
   
   return null;

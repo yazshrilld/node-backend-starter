@@ -2678,3 +2678,525 @@
  *       401:
  *         description: Unauthorized
  */
+
+
+/**
+ * @swagger
+ * /api/widget/widgetConfig/{companyId}/config:
+ *   post:
+ *     summary: upsertWidgetConfig
+ *     tags: [widgetConfig]
+ *     parameters:
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: companyId
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "companyId": {
+ *               "type": "string"
+ *             },
+ *             "widgetEnabled": {
+ *               "type": "boolean"
+ *             },
+ *             "allowedDomains": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "string"
+ *               }
+ *             },
+ *             "security": {
+ *               "type": "object",
+ *               "properties": {
+ *                 "requireOriginCheck": {
+ *                   "type": "boolean"
+ *                 }
+ *               },
+ *               "additionalProperties": false
+ *             },
+ *             "metadata": {
+ *               "type": "object",
+ *               "properties": {},
+ *               "additionalProperties": false,
+ *               "nullable": true
+ *             }
+ *           },
+ *           "required": [
+ *             "companyId"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "companyId": "string",
+ *           "widgetEnabled": true,
+ *           "allowedDomains": [
+ *             "string"
+ *           ],
+ *           "security": {
+ *             "requireOriginCheck": true
+ *           },
+ *           "metadata": {}
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/widgetConfig/{companyId}/config:
+ *   get:
+ *     summary: getWidgetConfig
+ *     tags: [widgetConfig]
+ *     parameters:
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: companyId
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/widgetConfig/{companyId}/token/regenerate:
+ *   patch:
+ *     summary: regenerateWidgetToken
+ *     tags: [widgetConfig]
+ *     parameters:
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: companyId
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "companyId": {
+ *               "type": "string"
+ *             }
+ *           },
+ *           "required": [
+ *             "companyId"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "companyId": "string"
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/widgetConfig/{companyId}/allowed-domains:
+ *   patch:
+ *     summary: patchAllowedDomains
+ *     tags: [widgetConfig]
+ *     parameters:
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: companyId
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "allowedDomains": {
+ *               "type": "array",
+ *               "items": {
+ *                 "type": "string"
+ *               }
+ *             }
+ *           },
+ *           "required": [
+ *             "allowedDomains"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "allowedDomains": [
+ *             "string"
+ *           ]
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/widgetConfig/{companyId}/status:
+ *   patch:
+ *     summary: patchWidgetStatus
+ *     tags: [widgetConfig]
+ *     parameters:
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: companyId
+ *     
+ *     requestBody:
+ *       required: true
+ *       description: |
+ *         Plain (unencrypted) payload schema:
+ *         {
+ *           "type": "object",
+ *           "properties": {
+ *             "widgetEnabled": {
+ *               "type": "boolean"
+ *             }
+ *           },
+ *           "required": [
+ *             "widgetEnabled"
+ *           ],
+ *           "additionalProperties": false
+ *         }
+ *         
+ *         Copy-ready example (encrypt this object):
+ *         {
+ *           "widgetEnabled": true
+ *         }
+ *       content:
+ *         application/json:
+ *           schema:
+ *             {
+ *               "type": "object",
+ *               "properties": {
+ *                 "textData": {
+ *                   "type": "string",
+ *                   "description": "Encrypted payload as text"
+ *                 }
+ *               },
+ *               "required": [
+ *                 "textData"
+ *               ],
+ *               "additionalProperties": false
+ *             }
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/widgetConfig/{companyId}/runtime/public:
+ *   get:
+ *     summary: getPublicWidgetRuntimeConfig
+ *     tags: [widgetConfig]
+ *     parameters:
+ *       - in: path
+ *         name: companyId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: companyId
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/analytics/overview:
+ *   get:
+ *     summary: getOverview
+ *     tags: [analytics]
+ *     parameters:
+ *       - in: query
+ *         name: companyId
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: period
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: fromDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: toDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/analytics/usage:
+ *   get:
+ *     summary: getUsage
+ *     tags: [analytics]
+ *     parameters:
+ *       - in: query
+ *         name: companyId
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: period
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: fromDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: toDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/analytics/issues:
+ *   get:
+ *     summary: getIssues
+ *     tags: [analytics]
+ *     parameters:
+ *       - in: query
+ *         name: companyId
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: period
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: fromDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: toDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/analytics/response-times:
+ *   get:
+ *     summary: getResponseTimes
+ *     tags: [analytics]
+ *     parameters:
+ *       - in: query
+ *         name: companyId
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: period
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: fromDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: toDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/analytics/satisfaction:
+ *   get:
+ *     summary: getSatisfaction
+ *     tags: [analytics]
+ *     parameters:
+ *       - in: query
+ *         name: companyId
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: period
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: fromDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: toDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */

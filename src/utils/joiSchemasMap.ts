@@ -24,6 +24,12 @@ import {
   staffIdParamValidationSchema,
   updateStaffStatusInputValidationSchema,
   updateStaffRolesInputValidationSchema,
+  widgetCompanyIdParamValidationSchema,
+  upsertWidgetConfigInputValidationSchema,
+  patchAllowedDomainsInputValidationSchema,
+  patchWidgetStatusInputValidationSchema,
+  analyticsQueryInputValidationSchema,
+
 } from "./validate";
 
 /**
@@ -63,4 +69,12 @@ export const joiSchemasMap: Record<string, Function> = {
   updateStaffInput: updateStaffInputValidationSchema,
   updateStaffStatusInput: updateStaffStatusInputValidationSchema,
   updateStaffRolesInput: updateStaffRolesInputValidationSchema,
+
+  widgetCompanyIdParamInput: widgetCompanyIdParamValidationSchema,
+  upsertWidgetConfigInput: upsertWidgetConfigInputValidationSchema,
+  patchAllowedDomainsInput: patchAllowedDomainsInputValidationSchema,
+  patchWidgetStatusInput: patchWidgetStatusInputValidationSchema,
+
+  analyticsQueryInput: analyticsQueryInputValidationSchema,
+
 };

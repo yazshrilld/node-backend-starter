@@ -185,6 +185,13 @@ const isEncryptedBodyRequired = (req: Request): boolean => {
   if (method === "PATCH" && /\/staff\/[^/]+\/roles$/.test(path)) return true;
   if (method === "POST" && /\/staff\/[^/]+\/resend-invite$/.test(path)) return true;
 
+  // Widget Config (write endpoints)
+  if (method === "POST" && /\/widgetConfig\/[^/]+\/config$/.test(path)) return true;
+  if (method === "PATCH" && /\/widgetConfig\/[^/]+\/token\/regenerate$/.test(path)) return true;
+  if (method === "PATCH" && /\/widgetConfig\/[^/]+\/allowed-domains$/.test(path)) return true;
+  if (method === "PATCH" && /\/widgetConfig\/[^/]+\/status$/.test(path)) return true;
+
+
   return false;
 };
 

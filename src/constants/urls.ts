@@ -65,4 +65,22 @@ export const urls = {
     getPermissions: () => routeCreator("permissions/all", "get"),
   },
 
+  widgetConfig: {
+    upsertWidgetConfig: () => routeCreator(":companyId/config", "post"),
+    getWidgetConfig: () => routeCreator(":companyId/config", "get"),
+    regenerateWidgetToken: () => routeCreator(":companyId/token/regenerate", "patch"),
+    patchAllowedDomains: () => routeCreator(":companyId/allowed-domains", "patch"),
+    patchWidgetStatus: () => routeCreator(":companyId/status", "patch"),
+    getPublicWidgetRuntimeConfig: () => routeCreator(":companyId/runtime/public", "get"),
+  },
+
+  analytics: {
+    getOverview: () => routeCreator("overview", "get"),
+    getUsage: () => routeCreator("usage", "get"),
+    getIssues: () => routeCreator("issues", "get"),
+    getResponseTimes: () => routeCreator("response-times", "get"),
+    getSatisfaction: () => routeCreator("satisfaction", "get"),
+  },
+
+
 };

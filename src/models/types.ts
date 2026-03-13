@@ -142,5 +142,53 @@ export type staffSchemaType = Document &
     invitedAt?: Date | null;
   };
 
+export type widgetConfigSchemaType = Document &
+  Helpers.Timestamps & {
+    _id?: string;
+    companyId?: string | null;
+    widgetEnabled: boolean;
+    allowedDomains: string[];
+    widgetToken: string;
+    tokenLastRotatedAt?: Date | null;
+    security?: {
+      requireOriginCheck?: boolean;
+    };
+    metadata?: Record<string, any> | null;
+  };
+
+export type analyticsSchemaType = Document &
+  Helpers.Timestamps & {
+    _id?: string;
+    companyId?: string | null;
+    period: "day" | "week" | "month";
+    fromDate: Date;
+    toDate: Date;
+    overview: {
+      totalConversations: number;
+      openTickets: number;
+      resolvedTickets: number;
+      activeStaff: number;
+    };
+    usage: Array<{
+      label: string;
+      value: number;
+    }>;
+    issues: {
+      escalations: number;
+      unresolvedBacklog: number;
+      reopenRate: number;
+    };
+    responseTimes: {
+      averageFirstResponseMins: number;
+      averageResolutionMins: number;
+    };
+    satisfaction: {
+      csatAverage: number;
+      responsesCount: number;
+    };
+  };
+
+
+
 
 

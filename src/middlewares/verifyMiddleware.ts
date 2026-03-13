@@ -28,6 +28,12 @@ import {
   staffIdParamValidationSchema,
   updateStaffStatusInputValidationSchema,
   updateStaffRolesInputValidationSchema,
+  widgetCompanyIdParamValidationSchema,
+  upsertWidgetConfigInputValidationSchema,
+  patchAllowedDomainsInputValidationSchema,
+  patchWidgetStatusInputValidationSchema,
+  analyticsQueryInputValidationSchema,
+  
 } from "../utils/validate";
 
 const createValidationMiddleware = (
@@ -209,6 +215,33 @@ const updateStaffRolesInput = createValidationMiddleware(
   ["body"],
 );
 
+const widgetCompanyIdParamInput = createValidationMiddleware(
+  (data: any) => widgetCompanyIdParamValidationSchema().validate(data.params),
+  ["params"],
+);
+
+const upsertWidgetConfigInput = createValidationMiddleware(
+  (data: any) => upsertWidgetConfigInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const patchAllowedDomainsInput = createValidationMiddleware(
+  (data: any) => patchAllowedDomainsInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const patchWidgetStatusInput = createValidationMiddleware(
+  (data: any) => patchWidgetStatusInputValidationSchema().validate(data.body),
+  ["body"],
+);
+
+const analyticsQueryInput = createValidationMiddleware(
+  (data: any) => analyticsQueryInputValidationSchema().validate(data.query),
+  ["query"],
+);
+
+
+
 
 const verifyMiddleware = {
   validateEncrtptedInput,
@@ -240,6 +273,11 @@ const verifyMiddleware = {
   updateStaffInput,
   updateStaffStatusInput,
   updateStaffRolesInput,
+  widgetCompanyIdParamInput,
+  upsertWidgetConfigInput,
+  patchAllowedDomainsInput,
+  patchWidgetStatusInput,
+  analyticsQueryInput
 };
 
 export { verifyMiddleware };

@@ -4,6 +4,8 @@ import * as onboardingService from "./onboarding";
 import * as faqService from "./faqs";
 import * as serviceService from "./services";
 import * as staffService from "./staff";
+import * as widgetConfigService from "./widgetConfig";
+import * as analyticsService from "./analytics";
 
 export {
   sessionService,
@@ -11,5 +13,7 @@ export {
   onboardingService,
   faqService,
   serviceService,
-  staffService
+  staffService,
+  widgetConfigService,
+  analyticsService
 };

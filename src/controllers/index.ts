@@ -6,6 +6,8 @@ import onboarding from "./onboarding";
 import faqs from "./faqs";
 import services from "./services";
 import staff from "./staff";
+import widgetConfig from "./widgetConfig";
+import analytics from "./analytics";
 
 export default {
   health,
@@ -15,5 +17,7 @@ export default {
   onboarding,
   faqs,
   services,
-  staff
+  staff,
+  widgetConfig,
+  analytics
 };
