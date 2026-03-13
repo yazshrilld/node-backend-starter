@@ -626,6 +626,28 @@ const analyticsQueryInputValidationSchema = () =>
       }),
   });
 
+const dashboardQueryInputValidationSchema = () =>
+  Joi.object({
+    companyId: Joi.string().trim().optional().allow(""),
+    period: Joi.string().trim().valid("day", "week", "month").optional(),
+    fromDate: Joi.string()
+      .optional()
+      .allow("")
+      .pattern(/^\d{4}-\d{2}-\d{2}$/)
+      .messages({
+        "string.pattern.base": "fromDate must be in YYYY-MM-DD format",
+      }),
+    toDate: Joi.string()
+      .optional()
+      .allow("")
+      .pattern(/^\d{4}-\d{2}-\d{2}$/)
+      .messages({
+        "string.pattern.base": "toDate must be in YYYY-MM-DD format",
+      }),
+    limit: Joi.number().integer().min(1).max(100).optional(),
+  });
+
+
 
 
 export {
@@ -685,5 +707,8 @@ export {
 
   // analytics
   analyticsQueryInputValidationSchema,
+
+  // dashboard
+  dashboardQueryInputValidationSchema,
 
 };

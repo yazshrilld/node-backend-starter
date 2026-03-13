@@ -6,6 +6,7 @@ import * as serviceModel from "./services";
 import * as staffModel from "./staff";
 import * as widgetConfigModel from "./widgetConfig";
 import * as analyticsModel from "./analytics";
+import * as dashboardModel from "./dashboard";
 
 // Export all models
 export {
@@ -17,4 +18,5 @@ export {
   staffModel,
   widgetConfigModel,
   analyticsModel,
+  dashboardModel
 };

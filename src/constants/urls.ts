@@ -82,5 +82,13 @@ export const urls = {
     getSatisfaction: () => routeCreator("satisfaction", "get"),
   },
 
+  dashboard: {
+    getSummary: () => routeCreator("summary", "get"),
+    getActivityFeed: () => routeCreator("activity-feed", "get"),
+    getAlerts: () => routeCreator("alerts", "get"),
+    getHealth: () => routeCreator("health", "get"),
+  },
+
+
 
 };

@@ -188,6 +188,48 @@ export type analyticsSchemaType = Document &
     };
   };
 
+export type dashboardSchemaType = Document &
+  Helpers.Timestamps & {
+    _id?: string;
+    companyId?: string | null;
+    period: "day" | "week" | "month";
+    fromDate: Date;
+    toDate: Date;
+    summary: {
+      totalConversations: number;
+      openTickets: number;
+      resolvedTickets: number;
+      activeStaff: number;
+    };
+    activityFeed: Array<{
+      type: string;
+      title: string;
+      description?: string;
+      actor?: string;
+      createdAt: Date;
+    }>;
+    alerts: Array<{
+      level: "info" | "warning" | "critical";
+      code?: string;
+      message: string;
+      isActive: boolean;
+      createdAt: Date;
+    }>;
+    health: {
+      status: "healthy" | "degraded" | "down";
+      modules: {
+        auth: string;
+        onboarding: string;
+        faqs: string;
+        services: string;
+        staff: string;
+        analytics: string;
+      };
+      lastCheckedAt: Date;
+    };
+  };
+
+
 
 
 

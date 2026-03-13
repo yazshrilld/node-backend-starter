@@ -29,6 +29,7 @@ import {
   patchAllowedDomainsInputValidationSchema,
   patchWidgetStatusInputValidationSchema,
   analyticsQueryInputValidationSchema,
+  dashboardQueryInputValidationSchema,
 
 } from "./validate";
 
@@ -76,5 +77,8 @@ export const joiSchemasMap: Record<string, Function> = {
   patchWidgetStatusInput: patchWidgetStatusInputValidationSchema,
 
   analyticsQueryInput: analyticsQueryInputValidationSchema,
+
+  dashboardQueryInput: dashboardQueryInputValidationSchema,
+
 
 };

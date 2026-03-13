@@ -3200,3 +3200,187 @@
  *       401:
  *         description: Unauthorized
  */
+
+
+/**
+ * @swagger
+ * /api/widget/dashboard/summary:
+ *   get:
+ *     summary: getSummary
+ *     tags: [dashboard]
+ *     parameters:
+ *       - in: query
+ *         name: companyId
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: period
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: fromDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: toDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/dashboard/activity-feed:
+ *   get:
+ *     summary: getActivityFeed
+ *     tags: [dashboard]
+ *     parameters:
+ *       - in: query
+ *         name: companyId
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: period
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: fromDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: toDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/dashboard/alerts:
+ *   get:
+ *     summary: getAlerts
+ *     tags: [dashboard]
+ *     parameters:
+ *       - in: query
+ *         name: companyId
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: period
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: fromDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: toDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */
+
+
+/**
+ * @swagger
+ * /api/widget/dashboard/health:
+ *   get:
+ *     summary: getHealth
+ *     tags: [dashboard]
+ *     parameters:
+ *       - in: query
+ *         name: companyId
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: period
+ *         required: false
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: fromDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: toDate
+ *         required: false
+ *         schema:
+ *           type: string
+ *           pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *     responses:
+ *       200:
+ *         description: Success
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ */

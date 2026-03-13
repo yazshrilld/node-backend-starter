@@ -33,7 +33,8 @@ import {
   patchAllowedDomainsInputValidationSchema,
   patchWidgetStatusInputValidationSchema,
   analyticsQueryInputValidationSchema,
-  
+  dashboardQueryInputValidationSchema,
+
 } from "../utils/validate";
 
 const createValidationMiddleware = (
@@ -240,6 +241,12 @@ const analyticsQueryInput = createValidationMiddleware(
   ["query"],
 );
 
+const dashboardQueryInput = createValidationMiddleware(
+  (data: any) => dashboardQueryInputValidationSchema().validate(data.query),
+  ["query"],
+);
+
+
 
 
 
@@ -277,7 +284,9 @@ const verifyMiddleware = {
   upsertWidgetConfigInput,
   patchAllowedDomainsInput,
   patchWidgetStatusInput,
-  analyticsQueryInput
+  analyticsQueryInput,
+  dashboardQueryInput,
+
 };
 
 export { verifyMiddleware };

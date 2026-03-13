@@ -6,6 +6,7 @@ import * as serviceService from "./services";
 import * as staffService from "./staff";
 import * as widgetConfigService from "./widgetConfig";
 import * as analyticsService from "./analytics";
+import * as dashboardService from "./dashboard";
 
 export {
   sessionService,
@@ -15,5 +16,6 @@ export {
   serviceService,
   staffService,
   widgetConfigService,
-  analyticsService
+  analyticsService,
+  dashboardService
 };

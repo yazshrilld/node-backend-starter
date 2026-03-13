@@ -8,6 +8,7 @@ import services from "./services";
 import staff from "./staff";
 import widgetConfig from "./widgetConfig";
 import analytics from "./analytics";
+import dashboard from "./dashboard";
 
 export default {
   health,
@@ -19,5 +20,6 @@ export default {
   services,
   staff,
   widgetConfig,
-  analytics
+  analytics,
+  dashboard
 };
