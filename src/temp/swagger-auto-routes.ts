@@ -767,11 +767,6 @@
  *         schema:
  *           type: string
  *         description: id
- *       - in: query
- *         name: id
- *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Success
@@ -1258,11 +1253,6 @@
  *         schema:
  *           type: string
  *         description: id
- *       - in: query
- *         name: id
- *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Success
@@ -1762,11 +1752,6 @@
  *         schema:
  *           type: string
  *         description: id
- *       - in: query
- *         name: id
- *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Success
@@ -2284,11 +2269,6 @@
  *         schema:
  *           type: string
  *         description: id
- *       - in: query
- *         name: id
- *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Success

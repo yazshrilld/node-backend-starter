@@ -31,11 +31,9 @@ const decryptRequestMiddleware = () => {
           payload: null,
         });
       }
-
       res.locals.shouldEncrypt = false;
       return next();
     }
-
     const stringData = req.body.textData;
     let logPayload = null;
     const defaultErrorMessage = "Fatal error occurred during decryption";

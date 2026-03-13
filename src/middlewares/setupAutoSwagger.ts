@@ -213,11 +213,20 @@ const buildPathParametersSection = (fullPath: string): string => {
     .join("")}`;
 };
 
-const buildQueryParametersSection = (schema: any): string => {
+const extractPathParamNames = (fullPath: string): string[] => {
+  return Array.from(fullPath.matchAll(/:([a-zA-Z0-9_]+)/g)).map((m) => m[1]);
+};
+
+
+const buildQueryParametersSection = (
+  schema: any,
+  excludeNames: string[] = [],
+): string => {
   const props = schema?.properties || {};
   const requiredList: string[] = schema?.required || [];
 
   const lines = Object.entries(props)
+    .filter(([key]) => !excludeNames.includes(key))
     .map(([key, prop]: any) => {
       const escapedPattern = prop.pattern
         ? prop.pattern.replace(/\\/g, "\\\\")
@@ -234,6 +243,7 @@ const buildQueryParametersSection = (schema: any): string => {
 
   return lines ? `parameters:${lines}` : "";
 };
+
 
 const buildRequestBodySection = (
   schema: any,
@@ -358,7 +368,8 @@ const generateSwaggerComments = (): string => {
           joiSwaggerSchema = schema;
 
           if (method === "get") {
-            const querySection = buildQueryParametersSection(schema);
+            const pathParamNames = extractPathParamNames(fullPath);
+            const querySection = buildQueryParametersSection(schema, pathParamNames);
             if (querySection) {
               parametersSection = parametersSection
                 ? `${parametersSection}${querySection.replace("parameters:", "")}`

@@ -244,17 +244,17 @@ backend, and how it fits into the middleware flow.
 ## Updated Structure
 - Absolutely. Updated flow with your required decryption step:
 
-- model
-- model types
-- models index export
-- service
-- services index export
-- controller + controllers index export
-- router
-- verifyMiddleware
-- validate
-- joiSchemasMap
-- urls
-- decryptRequestMiddleware.ts (encryption-required route mapping)
-- setupAutoSwagger
+- 1. model
+- 2. model types
+- 3. models index export
+- 4. service
+- 5. services index export
+- 6. controller + controllers index export
+- 7. router
+- 8. verifyMiddleware
+- 9. validate
+- 10. joiSchemasMap
+- 11. urls
+- 12. decryptRequestMiddleware.ts (encryption-required route mapping)
+- 13. setupAutoSwagger
 
