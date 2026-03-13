@@ -88,7 +88,5 @@ export const urls = {
     getAlerts: () => routeCreator("alerts", "get"),
     getHealth: () => routeCreator("health", "get"),
   },
-
-
-
+  
 };
